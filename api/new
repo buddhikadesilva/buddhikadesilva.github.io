@@ -1,0 +1,221 @@
+Very Berry Blonde
+    Very Berry Blonde(60g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Single-Serve_1_Very-Berry-Blonde.jpg
+    Very Berry Blonde(400g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Slab_6_Very-Berry-Blonde.jpg
+
+
+Wicked Chocalate Addiction
+    Wicked Chocalate Addiction - Gluten Free (60g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Single-Serve_3_Wicked-Chocolate-Addiction-Gluten-Free-300x300.jpg
+    Wicked Chocalate Addiction - Gluten Free (280g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Slab_7_Wicked-Chocolate-Addiction-Gluten-Free-600x600.jpg
+    Wicked Chocalate Addiction(60g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Single-Serve_Wicked-Chocolate-Addiction-300x300.jpg
+    Wicked Chocalate Addiction(280g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Slab_Wicked-Chocolate-Addiction-300x300.jpg
+
+
+Sinfully Salted Caramel Peanut
+    Sinfully Salted Caramel Peanut(60g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Single-Serve_6-300x300.jpg
+    Sinfully Salted Caramel Peanut(425g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Slab_2_Sinfully-Salted-Caramel-Peanut-300x300.jpg
+
+
+Escape to Coconut Island
+    Escape to Coconut Island(350g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Slab_1_Escape-to-Coconut-Island-300x300.jpg
+    Escape to Coconut Island(60g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Single-Serve_4_Escape-to-Coconut-Island-300x300.jpg
+
+
+Going Nuts Peanut Butter
+    Going Nuts Peanut Butter(300g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Slab_4_Going-Nuts-Peanut-Butter-300x300.jpg
+    Going Nuts Peanut Butter(60g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Single-Serve_2_Going-Nuts-Peanut-Butter-300x300.jpg
+
+
+Heavenly Hazelnut Choc
+    Heavenly Hazelnut Choc(300g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Slab_5_Heavenly-Hazelnut-Choc-300x300.jpg
+    Heavenly Hazelnut Choc(60g)https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/Brazen-Single-Serve_5_Heavenly-Hazelnut-Choc-300x300.jpg
+
+
+Brownie Cakes
+    Brownie Cakes https://www.brazenbrownies.com.au/wp-content/uploads/2018/06/brownie-cake-300x200.jpg
+
+
+Brownies
+Individual Cafe Brownies(60g)
+Individual Petite Brownies(30g)
+
+
+Gift boxes
+Customize Your Own Gift Box https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/brazen-brownies-small-gift-1-300x300.jpg
+Large Gift Box https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/brazen-brownies-gift-boxes-300x300.jpg
+Small Gift Box https://www.brazenbrownies.com.au/wp-content/uploads/2018/05/brazen-brownies-small-gift-5-300x300.jpg
+
+
+
+
+
+<Slide {...properties}>
+      <Box1>
+          <img src={bagsImage} alt="Logo" />
+         
+         
+          <Title>
+          <FormattedMessage
+            id={intlTitleId}
+            defaultMessage='Set Your Title Through Language File'
+            
+          />
+        </Title>
+            
+      
+      
+        </Box1>
+        <Box1>
+         <img src={makeupImage} alt="Logo" />
+        
+         </Box1>
+        
+          </Slide>
+          </Container>
+
+import styled from 'styled-components';
+import css from '@styled-system/css';
+import { Facebook } from 'assets/icons/Facebook';
+import { Twitter } from 'assets/icons/Twitter';
+import { Google } from 'assets/icons/Google';
+import { GooglePlus } from 'assets/icons/GooglePlus';
+import { Linkedin } from 'assets/icons/Linkedin';
+import { FormattedMessage } from 'react-intl';
+import { themeGet } from '@styled-system/theme-get';
+import { NONAME } from 'dns';
+
+const Box = styled.div(
+  css({
+    fontFamily: 'body',
+    fontWeight: 'regular', 
+    backgroundColor:'white',
+    //position: 'fixed',
+    '@media screen and (max-width: 990px)': {
+      position: 'static',
+      flexDirection: 'column'
+    },
+    a: {
+      color: 'primary.regular',
+    },
+  }),
+ 
+);
+
+const FooterTop = styled.div(
+  {
+    height: 250,
+    padding: 5,
+    width: '100%',
+    display: 'flex',
+    boxSizing:'border-box',
+    textAlign: 'left',
+    
+  }
+);
+
+const FooterBottom = styled.div(
+  {
+    height: '10',
+    marginTop: 100,
+    paddingBottom: 5,
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '@media screen and (max-width: 768px)': {
+      display: 'block',
+      width: '50%',
+      textAlign: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 140,
+      marginBottom: 5,
+      paddingLeft: 30,
+      flexDirection: 'column'
+    //  paddingRight: 20,
+    },
+  }
+);  
+
+const Box1 = styled.div(
+  {
+    marginTop: 20,
+    marginLeft: 50,
+    display: 'block',
+    width: '33%',
+    textAlign: 'left',
+    justifyContent: 'justify',
+    alignItems: 'left',
+    p:{
+      color: 'text.regular',
+    },
+    h3:{
+      color: '#e88f2a',
+    },
+    li: {
+      display: 'list-item',
+      color: 'text.regular',
+    },
+    table: {
+      width:200,
+      tableBorder: 5,
+    },
+    '@media screen and (max-width: 768px)': {
+      display: 'block',
+      width: '30%',
+      textAlign: 'left',
+      justifyContent: 'justify',
+      alignItems: 'left',
+      paddingLeft: 5,
+      marginBottom: 5,
+      flexDirection: 'column'
+    },
+  }
+);
+
+const Footer = () => {
+  return (
+    <Box>
+      <FooterTop>
+        <Box1>
+          <h3>Brazen Brownies</h3> <br />
+          <p>Brazen Brownies are freshly handmade and bursting with flavour. Shamelessly delicious and irresistibly indulgent. Melbourne made & owned. All flavours are available as Gluten Free to order.</p>
+        </Box1>
+        <Box1>
+          <h3>Get In Touch</h3> <br />
+          <ul>
+            <li>Phone: 0412 662 233</li>
+            <li> E-mail: yummy@brazenbrownies.com.au</li>
+            <li>Location: 661A High St, Kew East VIC 3102</li>
+          </ul><br/>
+          <table>
+            <tr>
+              <th><Facebook/></th>
+              <th><Twitter/></th>
+              <th><GooglePlus/></th>
+              <th><Google/></th>
+              <th><Linkedin/></th>
+            </tr>
+          </table>
+        </Box1>
+        <Box1>
+          <h3>The Range</h3><br />
+          <ul>
+            <li>Wicked Chocolate Addiction</li>
+            <li>Wicked Chocolate Addiction - Gluten Free</li>
+            <li>Very Berry Blonde</li>
+            <li>Sinfully Salted Caramel Peanut</li>
+            <li>Escape to Coconut Island</li>
+            <li>Going Nuts Peanut Butter</li>
+            <li>Heavenly Hazelnut Choc</li>
+          </ul><br />
+        </Box1>
+      </FooterTop>
+      <FooterBottom>
+        <p>©Copyright Brazen Brownies 2021 | Website by Brazen Brownies | Privacy Policy | Terms and Conditions</p>
+      </FooterBottom>
+    </Box>
+  );
+};
+export default Footer;
+
+
