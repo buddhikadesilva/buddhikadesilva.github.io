@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Level Computer Science: Applying OOP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .mermaid {
+            background: #f9f9f9;
+            padding: 1em;
+            border-radius: 8px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+        }
+
+        .title-icon {
+            width: 32px;
+            height: 32px;
+            stroke-width: 1.5;
+        }
+
+        /* Code block styling */
+        pre[class*="language-"] {
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced UML styling */
+        .uml-class {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+
+        .uml-class-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: #212529;
+        }
+
+        .uml-attributes,
+        .uml-methods {
+            padding: 0.5rem;
+            font-family: 'monospace';
+            font-size: 0.9rem;
+            color: #495057;
+        }
+
+        .uml-attributes {
+            border-bottom: 1px solid #f1f3f5;
+        }
+
+        .uml-section-title {
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+            color: #6c757d;
+        }
+
+        .uml-relationship svg {
+            stroke: #6c757d;
+        }
+
+        .uml-relationship-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #495057;
+            background-color: #f8f9fa;
+            padding: 0 4px;
+        }
+    </style>
+</head>
+
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <div id="presentation-container" class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <header class="p-2 bg-gray-800 text-white">
+                <h1 class="text-sm md:text-sm font-bold">A-Level Computer Science: Applying OOP</h1>
+                <p class="text-sm text-gray-300 mt-1">Design Principles, Practical Use, and Class Diagrams</p>
+            </header>
+
+            <main id="slides-container" class="p-6 md:p-10 min-h-[500px] transition-opacity duration-500">
+                <!-- Slide 1: Title -->
+                <section class="slide active" data-slide="1">
+                    <div class="flex flex-col items-center justify-center h-full text-center">
+                        <h2 class="text-4xl font-bold text-gray-800">Applying OOP</h2>
+                        <p class="text-xl mt-2 text-gray-600">Design Principles, Practical Use, and Class Diagrams</p>
+                        <div class="mt-12 text-lg">
+                            <p class="font-semibold">Gemini Educational</p>
+                            <p class="text-gray-500">May 18, 2025</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Slide 2: Learning Objectives -->
+                <section class="slide" data-slide="2">
+                    <h2 class="text-2xl font-bold mb-4">Learning Objectives</h2>
+                    <ul class="space-y-3 list-disc list-inside text-lg">
+                        <li>Know why the object-oriented paradigm is used.</li>
+                        <li>Be aware of common object-oriented design principles:
+                            <ul
+                                class="ml-6 mt-2 space-y-1 text-base list-decimal list-inside bg-gray-50 p-3 rounded-lg">
+                                <li>Encapsulate what varies.</li>
+                                <li>Favour composition over inheritance.</li>
+                                <li>Program to interfaces, not implementation.</li>
+                            </ul>
+                        </li>
+                        <li>Be able to write object-oriented programs.</li>
+                        <li>Gain practical experience coding user-defined classes.
+                            <ul class="ml-6 mt-2 space-y-1 text-base list-disc list-inside bg-gray-50 p-3 rounded-lg">
+                                <li> Abstract, virtual, and static methods (conceptual understanding if full
+                                    implementation
+                                    is language-dependent).</li>
+                                <li>
+                                    Inheritance, aggregation, polymorphism.</li>
+                                <li>Public, private, and protected specifiers.</li>
+
+                            </ul>
+                        </li>
+                        <li>Be able to draw and interpret class diagrams including inheritance, aggregation,
+                            composition, and access specifiers.</li>
+                    </ul>
+                </section>
+
+                <!-- Slide 3: Why OOP? -->
+                <section class="slide" data-slide="3">
+                    <h2 class="text-2xl font-bold mb-4">Why is the Object-Oriented Paradigm Used?</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg"><strong>Better Real-World Modelling:</strong> Objects can
+                            naturally represent real-world entities (e.g., a Student object, a Course object).</div>
+                        <div class="bg-green-50 p-4 rounded-lg"><strong>Improved Modularity & Maintainability:</strong>
+                            Encapsulation means changes within a class are less likely to break other parts of the
+                            system.</div>
+                        <div class="bg-yellow-50 p-4 rounded-lg"><strong>Enhanced Reusability:</strong> Inheritance and
+                            composition allow classes and objects to be reused and extended in different projects.</div>
+                        <div class="bg-purple-50 p-4 rounded-lg"><strong>Increased Extensibility & Scalability:</strong>
+                            New features can be added by creating new classes without altering existing, working code.
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg"><strong>Data Hiding & Security:</strong> Encapsulation
+                            protects an object's internal state from unintended external modification.</div>
+                        <div class="bg-indigo-50 p-4 rounded-lg"><strong>Collaboration:</strong> Clear class interfaces
+                            facilitate teamwork, as developers can work on different classes independently.</div>
+                        <div class="bg-orange-50 p-4 rounded-lg"><strong>Polymorphism for Flexibility:</strong> Allows
+                            for treating different objects uniformly, leading to more flexible and adaptable code.</div>
+                    </div>
+                </section>
+
+                <!-- Slide 4: Encapsulate What Varies -->
+                <section class="slide" data-slide="4">
+                    <h2 class="text-2xl font-bold mb-2">Principle 1: Encapsulate What Varies</h2>
+                    <p class="mb-4">Identify the parts of your application that are most likely to change and separate
+                        them from the parts that stay the same.</p>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">Example: Regional Tax Calculation</h3>
+                        <p class="mb-3">Instead of scattering IF-ELSE statements for different regions throughout your
+                            code, encapsulate the tax calculation logic.</p>
+
+                        <ul class="ml-6 mt-2 space-y-1 text-base list-decimal list-inside bg-green-50 p-3 rounded-lg">
+                            <li>Create a `TaxCalculator` interface.</li>
+                            <li>Implement `UKTaxCalculator`, `EUTaxCalculator`, etc.</li>
+                            <li>The rest of the system uses the `TaxCalculator` interface, unaware of the specific
+                                regional implementation.</li>
+                        </ul>
+
+                        <p class="mt-3 text-sm text-gray-600"><strong>Supported by:</strong> Encapsulation, Interfaces,
+                            Abstract Classes.</p>
+                    </div>
+
+                    <div class="mt-4 bg-gray-50 p-6 rounded-lg border">
+                        <h3 class="font-semibold text-xl mb-2">Python Example: A Payment Processing System</h3>
+                        <p class="mb-3">Imagine you need to process payments, but might add new payment methods later
+                            (e.g., Bank Transfer, Bitcoin). The payment method is what <strong>varies</strong>.</p>
+                        <div class="mt-2 bg-red-100 p-4 rounded-lg">
+
+                            <p> <strong>Before</strong> </p>
+                            <pre><code class="language-python">
+class Order:
+    def __init__(self, amount, payment_method):
+        self.amount = amount
+        self.payment_method = payment_method
+
+    def process_payment(self):
+        if self.payment_method == "credit_card":
+            print(f"Paying £{self.amount} using Credit Card.")
+        elif self.payment_method == "paypal":
+            print(f"Paying £{self.amount} via PayPal.")
+        # To add new methods, you need to keep modifying this method:
+        # elif self.payment_method == "bank_transfer":
+        #     print(f"Paying £{self.amount} via Bank Transfer.")
+        else:
+            print("Unknown payment method.")
+
+# Usage
+order1 = Order(100, "credit_card")
+order1.process_payment()
+
+order2 = Order(50, "paypal")
+order2.process_payment()
+</code></pre>
+
+                        </div>
+
+
+
+                        <div class="mt-2 bg-green-100 p-4 rounded-lg">
+
+                            <p><strong>After</strong> </p>
+
+
+                            <pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+# 1. Define a stable interface (the part that doesn't change)
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def pay(self, amount):
+        pass
+
+# 2. Encapsulate the varying parts (the implementations)
+class CreditCardProcessor(PaymentProcessor):
+    def pay(self, amount):
+        print(f"Paying £{amount} using Credit Card.")
+
+class PayPalProcessor(PaymentProcessor):
+    def pay(self, amount):
+        print(f"Paying £{amount} via PayPal.")
+
+# 3. The client code depends only on the stable interface
+class Order:
+    def __init__(self, amount, processor: PaymentProcessor):
+        self.amount = amount
+        self.processor = processor
+
+    def process_payment(self):
+        self.processor.pay(self.amount)
+
+# You can easily switch the implementation without changing the Order class
+cc_processor = CreditCardProcessor()
+order1 = Order(100, cc_processor)
+order1.process_payment()
+
+paypal_processor = PayPalProcessor()
+order2 = Order(50, paypal_processor)
+order2.process_payment()
+</code></pre>
+
+                        </div>
+
+
+                    </div>
+                </section>
+
+                <!-- Slide 5: Favour Composition -->
+                <section class="slide" data-slide="5">
+                    <h2 class="text-2xl font-bold mb-2">Principle 2: Favour Composition Over Inheritance</h2>
+                    <p class="mb-4">Build complex objects by assembling other objects, rather than inheriting from a
+                        complex base class.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="mt-6 bg-red-50 p-4 rounded-sm">
+                            <h3 class="font-semibold text-lg mb-2">Inheritance ("is-a")</h3>
+                            <p>Creates strong coupling. Changes to the superclass
+                                can break subclasses. Can lead to
+                                rigid hierarchies.</p>
+                        </div>
+                        <div class="mt-6 bg-green-50 p-4 rounded-sm">
+                            <h3 class="font-semibold text-lg mb-2">Composition ("has-a")</h3>
+                            <p>More flexible. Objects can be combined at
+                                runtime. Avoids the "Fragile Base Class"
+                                problem.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 bg-orange-50 p-4 rounded-sm">
+                        <p>
+                            <strong>When to use inheritance:</strong> When there's a clear "is-a" relationship and you
+                            want
+                            to leverage
+                            polymorphism with a common interface defined by the superclass. It should model a genuine
+                            specialization.
+                        </p>
+                    </div>
+
+                    <div class="mt-6 bg-gray-50 p-6 rounded-lg border">
+                        <h3 class="font-semibold text-xl mb-2">Python Example: A Car with an Engine</h3>
+                        <p>A <code class="bg-yellow-200 px-1 rounded">Car</code> <strong>has an</strong> <code
+                                class="bg-yellow-200 px-1 rounded">Engine</code> (composition) is more flexible than
+                            <code class="bg-red-200 px-1 rounded">Car</code> <strong>is an</strong> <code
+                                class="bg-red-200 px-1 rounded">EnginePoweredVehicle</code> (inheritance), especially if
+                            you later want an <code class="bg-yellow-200 px-1 rounded">ElectricCar</code> which
+                            <strong>has a</strong> <code class="bg-yellow-200 px-1 rounded">Motor</code>.
+                        </p>
+                        <div class="mt-2 bg-red-100 p-4 rounded-lg">
+
+                            <p> <strong>Before</strong> </p>
+
+                            <pre><code class="language-python">
+# The base class for all engine-powered vehicles
+class EnginePoweredVehicle:
+    def start(self):
+        return "Generic engine sound"
+
+# A Car is an EnginePoweredVehicle with a petrol engine
+class Car(EnginePoweredVehicle):
+    def start(self):
+        return "Vroom!"
+
+# An ElectricCar is an EnginePoweredVehicle with an electric motor
+class ElectricCar(EnginePoweredVehicle):
+    def start(self):
+        return "Whirrr..."
+
+# Create instances and start them
+petrol_car = Car()
+print(f"Starting the petrol car... {petrol_car.start()}")
+
+electric_car = ElectricCar()
+print(f"Starting the electric car... {electric_car.start()}")
+</code></pre>
+                        </div>
+
+
+                        <div class="mt-2 bg-green-100 p-4 rounded-lg">
+                            <p> <strong>After</strong></p>
+
+
+                            <pre><code class="language-python">
+# The "part" objects
+class Engine:
+    def start(self):
+        return "Vroom!"
+
+class ElectricMotor:
+    def start(self):
+        return "Whirrr..."
+
+# The "whole" object, built by composition
+class Car:
+    def __init__(self, engine_type):
+        # The Car "has-a" engine, which is another object
+        self.engine = engine_type
+
+    def start_car(self):
+        print(f"Starting the car... {self.engine.start()}")
+
+# Create cars with different "parts" at runtime
+petrol_engine = Engine()
+petrol_car = Car(petrol_engine)
+petrol_car.start_car()
+
+electric_motor = ElectricMotor()
+electric_car = Car(electric_motor)
+electric_car.start_car()
+</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Slide 6: Program to Interfaces -->
+                <section class="slide" data-slide="6">
+                    <h2 class="text-2xl font-bold mb-2">Principle 3: Program to Interfaces, Not Implementation</h2>
+                    <p class="mb-4">Depend on abstractions (interfaces or abstract classes) rather than concrete
+                        classes.</p>
+
+
+                    <ul>
+                        <li> <strong>Interface:</strong> Defines a contract (a set of methods a class must
+                            implement)
+                            without providing the implementation.</li>
+                        <li> <strong>Implementation:</strong> The concrete class that provides the actual code for
+                            the
+                            methods defined in an interface.</li>
+                    </ul>
+
+
+
+
+
+
+                    <div class="mt-6 bg-grey-50 p-4 rounded-sm">
+                        <p>
+                            <strong>Purpose:</strong> Promotes loose coupling. Your code interacts with an abstract
+                            contract, not a specific type. This makes it easy to swap out different implementations
+                            without changing the client code.
+
+                        </p>
+                    </div>
+
+                    <p>Example:</p>
+
+                    <div class="bg-gray-800 text-white p-4 rounded-lg font-mono text-sm">
+                        <pre><code><span class="text-purple-400">INTERFACE</span> SwitchableDevice:
+    <span class="text-cyan-400">METHOD</span> turnOn()
+    <span class="text-cyan-400">METHOD</span> turnOff()
+
+<span class="text-purple-400">CLASS</span> LightBulb <span class="text-purple-400">IMPLEMENTS</span> SwitchableDevice: ...
+<span class="text-purple-400">CLASS</span> Fan <span class="text-purple-400">IMPLEMENTS</span> SwitchableDevice: ...
+
+<span class="text-gray-400">// Client code:</span>
+device <span class="text-purple-400">AS</span> SwitchableDevice <span class="text-gray-400">// Program to the interface</span>
+device = <span class="text-purple-400">new</span> LightBulb()
+device.turnOn()</code></pre>
+                    </div>
+                    <p class="mt-4">The client code doesn't care if it's a <code
+                            class="bg-gray-200 px-1 rounded">LightBulb</code> or a <code
+                            class="bg-gray-200 px-1 rounded">Fan</code>, only that it's a <code
+                            class="bg-gray-200 px-1 rounded">SwitchableDevice</code> and can be turned on.</p>
+
+
+
+
+
+
+
+                    <div class="mt-2 p-4 rounded-lg">
+                        <p> <strong>Python Code:</strong></p>
+
+
+                        <pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+# Define the interface
+class SwitchableDevice(ABC):
+    @abstractmethod
+    def turnOn(self):
+        pass
+
+    @abstractmethod
+    def turnOff(self):
+        pass
+
+# Implement the LightBulb class
+class LightBulb(SwitchableDevice):
+    def turnOn(self):
+        print("LightBulb is now ON.")
+
+    def turnOff(self):
+        print("LightBulb is now OFF.")
+
+# Implement the Fan class
+class Fan(SwitchableDevice):
+    def turnOn(self):
+        print("Fan is now ON.")
+
+    def turnOff(self):
+        print("Fan is now OFF.")
+
+# Client code: program to the interface
+device: SwitchableDevice
+
+device = LightBulb()
+device.turnOn()  # Output: LightBulb is now ON.
+
+</code></pre>
+                    </div>
+
+                </section>
+
+                <!-- Slide 7: Practical Experience -->
+                <section class="slide" data-slide="7">
+                    <h2 class="text-2xl font-bold mb-4">Practical Experience: Writing OOP Programs</h2>
+                    <p class="mb-4">This is about putting concepts into practice. Let's design a simple library system.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="uml-class">
+                            <div class="uml-class-name">Book</div>
+                            <div class="uml-attributes">
+                                <strong>Attributes:</strong><br>
+                                + title: String<br>
+                                + author: String<br>
+                                + isbn: String<br>
+                                - is_loaned_out: Boolean
+                            </div>
+                            <div class="uml-methods">
+                                <strong>Methods:</strong><br>
+                                + loan_book()<br>
+                                + return_book()<br>
+                                + display_details()
+                            </div>
+                        </div>
+                        <div class="uml-class">
+                            <div class="uml-class-name">Member</div>
+                            <div class="uml-attributes">
+                                <strong>Attributes:</strong><br>
+                                - member_id: String<br>
+                                - name: String<br>
+                                - books_on_loan_list: List
+                            </div>
+                            <div class="uml-methods">
+                                <strong>Methods:</strong><br>
+                                + borrow_book(book)<br>
+                                + return_book(book)
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Slide 8: Access Specifiers -->
+                <section class="slide" data-slide="8">
+                    <h2 class="text-2xl font-bold mb-4">Coding: Access Specifiers</h2>
+                    <ul class="space-y-2 mb-4">
+                        <li><strong class="text-green-600">Public (+):</strong> Accessible from anywhere.</li>
+                        <li><strong class="text-red-600">Private (-):</strong> Accessible only from within the class
+                            itself. Key for encapsulation.</li>
+                        <li><strong class="text-yellow-600">Protected (#):</strong> Accessible within the class and its
+                            subclasses.</li>
+                    </ul>
+                    <p class="mb-2">Example (Python convention):</p>
+                    <div class="bg-gray-800 text-white p-4 rounded-lg font-mono text-sm">
+                        <pre><code><span class="text-purple-400">class</span> <span class="text-green-400">BankAccount</span>:
+    <span class="text-purple-400">def</span> <span class="text-yellow-400">__init__</span>(<span class="text-orange-400">self</span>, initial_balance):
+        <span class="text-orange-400">self</span>.__balance = initial_balance  <span class="text-gray-400"># Private attribute</span>
+        <span class="text-orange-400">self</span>.account_holder = <span class="text-lime-300">"Default"</span> <span class="text-gray-400"># Public attribute</span>
+
+    <span class="text-purple-400">def</span> <span class="text-yellow-400">deposit</span>(<span class="text-orange-400">self</span>, amount): <span class="text-gray-400"># Public method</span>
+        <span class="text-purple-400">if</span> amount > <span class="text-cyan-400">0</span>:
+            <span class="text-orange-400">self</span>.__balance += amount
+
+    <span class="text-purple-400">def</span> <span class="text-yellow-400">get_balance</span>(<span class="text-orange-400">self</span>): <span class="text-gray-400"># Public "getter" method</span>
+        <span class="text-purple-400">return</span> <span class="text-orange-400">self</span>.__balance</code></pre>
+                    </div>
+                </section>
+
+                <!-- Slide 9: Advanced Method Types -->
+                <section class="slide" data-slide="9">
+                    <h2 class="text-2xl font-bold mb-4">Conceptual: Advanced Method Types</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="font-semibold text-lg">Abstract Method</h3>
+                            <p>A method declared in an abstract class with no implementation. Subclasses are forced to
+                                provide an implementation. Defines a contract (e.g., `calculateArea()` in a `Shape`
+                                class).</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Virtual Method</h3>
+                            <p>A method in a base class that can be overridden by a derived class. Enables polymorphic
+                                behavior. (In Python, all methods are effectively virtual).</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Static Method</h3>
+                            <p>Belongs to the class, not an instance. Called using the class name (e.g.,
+                                `MathUtils.add(5, 3)`). Used for utility functions.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Slide 10: Class Diagrams Intro -->
+                <section class="slide" data-slide="10">
+                    <h2 class="text-2xl font-bold mb-4">Drawing and Interpreting Class Diagrams</h2>
+                    <p class="mb-4">A UML diagram that describes the structure of a system by showing its classes, their
+                        attributes, methods, and relationships.</p>
+                    <div class="uml-class max-w-sm mx-auto">
+                        <div class="uml-class-name">ClassName</div>
+                        <div class="uml-attributes">
+                            <strong>Attributes</strong><br>
+                            - privateAttribute: dataType<br>
+                            + publicAttribute: dataType<br>
+                            # protectedAttribute: dataType
+                        </div>
+                        <div class="uml-methods">
+                            <strong>Operations/Methods</strong><br>
+                            + publicMethod(params): returnType
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Slide 11: Class Diagram Relationships -->
+                <section class="slide" data-slide="11">
+                    <h2 class="text-2xl font-bold mb-4">Class Diagrams: Relationships</h2>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h3 class="font-semibold">Inheritance ("is-a")</h3>
+                            <p>Arrow with an open arrowhead from subclass to superclass. <span class="text-2xl ml-4">
+                                    subclass ───▷ superclass</span></p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h3 class="font-semibold">Aggregation ("has-a", shared)</h3>
+                            <p>Line with an open diamond on the "whole" class side. <span class="text-2xl ml-4"> whole
+                                    ◇───── part</span></p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h3 class="font-semibold">Composition ("has-a", owned)</h3>
+                            <p>Line with a filled diamond on the "whole" class side. <span class="text-2xl ml-4"> whole
+                                    ◆───── part</span></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Slide 12: Class Diagram Example -->
+                <section class="slide" data-slide="12">
+                    <h2 class="text-2xl font-bold mb-4">Class Diagram Example: University System</h2>
+
+                    <!-- draw.io diagram -->
+                    <div class="mxgraph" style="max-width:100%;border:1px solid transparent;"
+                        data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;dark-mode&quot;:&quot;auto&quot;,&quot;toolbar&quot;:&quot;zoom layers tags lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; agent=\&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\&quot; version=\&quot;27.2.0\&quot;&gt;\n  &lt;diagram name=\&quot;Page-1\&quot; id=\&quot;GPayVPke5uS8veQbgKzN\&quot;&gt;\n    &lt;mxGraphModel dx=\&quot;1106\&quot; dy=\&quot;597\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;850\&quot; pageHeight=\&quot;1100\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n      &lt;root&gt;\n        &lt;mxCell id=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;MCsS3jPaqkLBaGsPqdGy-1\&quot; value=\&quot;Classname\&quot; style=\&quot;swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;130\&quot; y=\&quot;100\&quot; width=\&quot;160\&quot; height=\&quot;86\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;mxRectangle x=\&quot;130\&quot; y=\&quot;100\&quot; width=\&quot;100\&quot; height=\&quot;30\&quot; as=\&quot;alternateBounds\&quot; /&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;MCsS3jPaqkLBaGsPqdGy-2\&quot; value=\&quot;+ field: type\&quot; style=\&quot;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\&quot; parent=\&quot;MCsS3jPaqkLBaGsPqdGy-1\&quot; vertex=\&quot;1\&quot;&gt;\n          &lt;mxGeometry y=\&quot;26\&quot; width=\&quot;160\&quot; height=\&quot;26\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;MCsS3jPaqkLBaGsPqdGy-3\&quot; value=\&quot;\&quot; style=\&quot;line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;\&quot; parent=\&quot;MCsS3jPaqkLBaGsPqdGy-1\&quot; vertex=\&quot;1\&quot;&gt;\n          &lt;mxGeometry y=\&quot;52\&quot; width=\&quot;160\&quot; height=\&quot;8\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;MCsS3jPaqkLBaGsPqdGy-4\&quot; value=\&quot;+ method(type): type\&quot; style=\&quot;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\&quot; parent=\&quot;MCsS3jPaqkLBaGsPqdGy-1\&quot; vertex=\&quot;1\&quot;&gt;\n          &lt;mxGeometry y=\&quot;60\&quot; width=\&quot;160\&quot; height=\&quot;26\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n      &lt;/root&gt;\n    &lt;/mxGraphModel&gt;\n  &lt;/diagram&gt;\n&lt;/mxfile&gt;\n&quot;}">
+                    </div>
+                    <script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+
+
+                    <div class="text-center">
+                        <div class="uml-class inline-block align-top mx-2">
+                            <div class="uml-class-name">Person</div>
+                        </div>
+                        <div class="uml-relationship">Inheritance<br>▼</div>
+                        <div class="uml-class inline-block align-top mx-2">
+                            <div class="uml-class-name">Student</div>
+                        </div>
+                        <div class="uml-class inline-block align-top mx-2">
+                            <div class="uml-class-name">Professor</div>
+                        </div>
+                        <div class="uml-relationship">Aggregation (has-a)<br>▼</div>
+                        <div class="uml-class inline-block align-top mx-2">
+                            <div class="uml-class-name">Department</div>
+                        </div>
+                        <div class="uml-relationship">Composition (owns-a)<br>▼</div>
+                        <div class="uml-class inline-block align-top mx-2">
+                            <div class="uml-class-name">Course</div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-center italic">"A Student <strong>is a</strong> Person. A Department
+                        <strong>has</strong> Professors. A Department <strong>is composed of</strong> Courses."
+                    </p>
+                </section>
+
+                <!-- Slide 13: Summary -->
+                <section class="slide" data-slide="13">
+                    <h2 class="text-2xl font-bold mb-4">Summary & Key Takeaways</h2>
+                    <ul class="space-y-3 list-disc list-inside">
+                        <li>OOP is used for better modelling, maintainability, and reusability.</li>
+                        <li><strong>Key Principles:</strong> Encapsulate what varies, favour composition, program to
+                            interfaces.</li>
+                        <li>Practical OOP involves classes, attributes, methods, and access specifiers.</li>
+                        <li>Class diagrams are vital for designing and visualizing system structure and relationships.
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Slide 14: Questions / Activities -->
+                <section class="slide" data-slide="14">
+                    <h2 class="text-2xl font-bold mb-4">Questions & Activities</h2>
+                    <div class="space-y-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold">Activity: Zoo System</h3>
+                            <p>Consider a system for managing a zoo. Identify key classes (e.g., Animal, Mammal,
+                                Enclosure). Sketch a simple class diagram showing relationships between them.</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold">Question:</h3>
+                            <p>Explain the "program to interfaces, not implementation" principle with an example. Why is
+                                it beneficial?</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="font-semibold">Discussion:</h3>
+                            <p>When might you still choose inheritance over composition, despite the general advice to
+                                favour composition?</p>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+            <footer class="flex justify-between items-center p-4 bg-gray-200 border-t border-gray-300">
+                <button id="prevBtn"
+                    class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors">Previous</button>
+                <div id="slide-counter" class="text-sm font-medium text-gray-600">Slide 1 / 14</div>
+                <button id="nextBtn"
+                    class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors">Next</button>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slide-counter');
+            const slidesContainer = document.getElementById('slides-container');
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                // Fade out current slide
+                slidesContainer.style.opacity = 0;
+
+                setTimeout(() => {
+                    slides.forEach((slide, i) => {
+                        slide.classList.toggle('active', i === index);
+                    });
+                    // Fade in new slide
+                    slidesContainer.style.opacity = 1;
+
+                    currentSlide = index;
+                    updateControls();
+                }, 200); // Wait for fade out transition
+            }
+
+            function updateControls() {
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+                slideCounter.textContent = `Slide ${currentSlide + 1} / ${totalSlides}`;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    prevBtn.click();
+                } else if (e.key === 'ArrowRight') {
+                    nextBtn.click();
+                }
+            });
+
+            showSlide(0); // Show the first slide initially
+        });
+    </script>
+</body>
+
+</html>
