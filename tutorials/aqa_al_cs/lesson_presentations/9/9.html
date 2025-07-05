@@ -139,9 +139,26 @@
                         <h2 class="text-4xl font-bold text-gray-800">Applying OOP</h2>
                         <p class="text-xl mt-2 text-gray-600">Design Principles, Practical Use, and Class Diagrams</p>
                         <div class="mt-12 text-lg">
-                            <p class="font-semibold">Gemini Educational</p>
-                            <p class="text-gray-500">May 18, 2025</p>
+
+                            <p class="text-sm text-gray-500">
+                                <strong>Target Syllabus Sections:</strong>
+                                4.1.2.3 Object-oriented programming
+                                (covering why OOP is used, design principles: encapsulate what varies, favour
+                                composition over inheritance, program to interfaces; writing OOP programs; practical
+                                experience of coding user-defined classes; drawing and interpreting class diagrams with
+                                specified features).
+                            </p>
+
+                            <p class="mt-2 text-sm text-gray-500"><strong>Overall Goal:</strong>To equip students with
+                                an
+                                understanding of why OOP is
+                                beneficial, key design principles for effective OOP, practical experience in writing OOP
+                                code, and the ability to use class diagrams for design and interpretation.
+                            </p>
+
+
                         </div>
+                        <p class="text-sm text-gray-400 mt-10">Prepared by Buddhika De Silva</p>
                     </div>
                 </section>
 
@@ -197,6 +214,199 @@
                             for treating different objects uniformly, leading to more flexible and adaptable code.</div>
                     </div>
                 </section>
+
+
+                <!-- Slide 5: OOP Basics Practice Questions -->
+                <section class="slide" data-slide="5">
+                    <h2 class="text-2xl font-bold mb-4">Practice Questions: OOP Basics</h2>
+                    <p class="mb-6 text-gray-600">Let's apply the fundamental concepts. Try to answer these before
+                        revealing the solution.</p>
+
+                    <div class="space-y-4">
+                        <!-- Question 1: Encapsulation -->
+                        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                            <h3 class="font-semibold text-lg mb-2">Question 1: Protecting Data (Encapsulation)</h3>
+                            <p class="mb-3">You are creating a `BankAccount` class. It needs to store a `balance`.
+                                The balance should never be allowed to drop below £0 and can only be changed via
+                                `deposit`
+                                and `withdraw` methods. How would you design this class to enforce these rules?</p>
+                            <details class="mt-2 bg-white rounded">
+                                <summary class="cursor-pointer font-medium p-2 text-blue-800">Click to reveal hint &
+                                    answer</summary>
+                                <div class="p-4 border-t">
+                                    <p class="font-semibold text-sm">Hint:</p>
+                                    <p class="mb-3 text-sm">Think about access specifiers. How can you make the
+                                        `balance` attribute "private"? How can you provide controlled public access to
+                                        it?
+                                    </p>
+                                    <p class="font-semibold text-sm">Answer:</p>
+                                    <p class="mb-2 text-sm">This demonstrates <strong>Encapsulation</strong>. You would
+                                        make the `balance` attribute private (e.g., `__balance` in Python) and
+                                        provide public methods like `deposit(amount)` and `withdraw(amount)` to modify
+                                        it. The `withdraw` method would contain logic to prevent the balance from going
+                                        below zero.</p>
+                                    <pre><code class="language-python">
+class BankAccount:
+    def __init__(self, initial_balance=0):
+        # The double underscore makes this attribute "private"
+        self.__balance = initial_balance
+
+    def get_balance(self):
+        return self.__balance
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+            print(f"Deposited £{amount}. New balance: £{self.__balance}")
+        else:
+            print("Deposit amount must be positive.")
+
+    def withdraw(self, amount):
+        if 0 < amount <= self.__balance:
+            self.__balance -= amount
+            print(f"Withdrew £{amount}. New balance: £{self.__balance}")
+        else:
+            print("Invalid withdrawal amount or insufficient funds.")
+</code></pre>
+                                </div>
+                            </details>
+                        </div>
+
+                        <!-- Question 2: Inheritance -->
+                        <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
+                            <h3 class="font-semibold text-lg mb-2">Question 2: Code Reusability (Inheritance)</h3>
+                            <p class="mb-3">You have a general `Staff` class with properties like `name` and
+                                `staff_id`. Now, you need `Teacher` and `Admin` staff types. A `Teacher` has a
+                                `subject` they teach, and an `Admin` has a `department`. How would you structure these
+                                classes to avoid repeating the `name` and `staff_id` code?</p>
+                            <details class="mt-2 bg-white rounded">
+                                <summary class="cursor-pointer font-medium p-2 text-green-800">Click to reveal hint &
+                                    answer</summary>
+                                <div class="p-4 border-t">
+                                    <p class="font-semibold text-sm">Hint:</p>
+                                    <p class="mb-3 text-sm">What do all staff types have in common? This commonality can
+                                        be
+                                        placed in a parent (base) class.</p>
+                                    <p class="font-semibold text-sm">Answer:</p>
+                                    <p class="mb-2 text-sm">This is a perfect case for <strong>Inheritance</strong>.
+                                        Create
+                                        a base `Staff` class. Then, have `Teacher` and `Admin` inherit from `Staff`.
+                                        They
+                                        can use `super().__init__()` to initialize the parent part of the object.</p>
+                                    <pre><code class="language-python">
+# Base (Parent) Class
+class Staff:
+    def __init__(self, name, staff_id):
+        self.name = name
+        self.staff_id = staff_id
+
+# Derived (Child) Class
+class Teacher(Staff):
+    def __init__(self, name, staff_id, subject):
+        super().__init__(name, staff_id) # Initialize parent class
+        self.subject = subject
+
+# Another Derived (Child) Class
+class Admin(Staff):
+    def __init__(self, name, staff_id, department):
+        super().__init__(name, staff_id) # Initialize parent class
+        self.department = department
+
+# Usage
+mr_smith = Teacher("Mr. Smith", "T001", "Computer Science")
+ms_jones = Admin("Ms. Jones", "A001", "Finance")
+
+print(f"{mr_smith.name} (ID: {mr_smith.staff_id}) teaches {mr_smith.subject}.")
+# Output: Mr. Smith (ID: T001) teaches Computer Science.
+</code></pre>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- Slide 9: Advanced Method Types -->
+                <section class="slide" data-slide="9">
+                    <h2 class="text-2xl font-bold mb-4">Conceptual: Advanced Method Types</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="font-semibold text-lg">Abstract Method</h3>
+                            <p>A method declared in an abstract class with no implementation. Subclasses are forced to
+                                provide an implementation. Defines a contract (e.g., `calculateArea()` in a `Shape`
+                                class).</p>
+                            <div class="mt-2 p-4 rounded-lg">
+                                <p> <strong>Python Code:</strong></p>
+
+
+                                <pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def calculate_area(self):
+        pass
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def calculate_area(self):
+        return self.width * self.height
+
+rect = Rectangle(5, 3)
+print(rect.calculate_area())  # Output: 15
+</code></pre>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h3 class="font-semibold text-lg">Virtual Method</h3>
+                            <p>A method in a base class that can be overridden by a derived class. Enables polymorphic
+                                behavior. (In Python, all methods are effectively virtual).</p>
+                            <div class="mt-2 p-4 rounded-lg">
+                                <p> <strong>Python Code:</strong></p>
+
+
+                                <pre><code class="language-python">
+class Animal:
+    def says(self):
+        return "I am an unknown animal"
+
+class Dog(Animal):
+    def says(self):
+        return "I am a dog!"
+
+a = Animal()
+d = Dog()
+print(a.says())  # Output: I am an unknown animal
+print(d.says())  # Output: I am a dog!
+</code></pre>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h3 class="font-semibold text-lg">Static Method</h3>
+                            <p>Belongs to the class, not an instance. Called using the class name (e.g.,
+                                `MathUtils.add(5, 3)`). Used for utility functions.</p>
+                            <div class="mt-2 p-4 rounded-lg">
+                                <p> <strong>Python Code:</strong></p>
+
+
+                                <pre><code class="language-python">
+class MathUtils:
+    @staticmethod
+    def add(x, y):
+        return x + y
+
+print(MathUtils.add(5, 3))  # Output: 8
+</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
 
                 <!-- Slide 4: Encapsulate What Varies -->
                 <section class="slide" data-slide="4">
@@ -507,93 +717,7 @@ device.turnOn()  # Output: LightBulb is now ON.
 
                 </section>
 
-                <!-- Slide 7: Practical Experience -->
-                <section class="slide" data-slide="7">
-                    <h2 class="text-2xl font-bold mb-4">Practical Experience: Writing OOP Programs</h2>
-                    <p class="mb-4">This is about putting concepts into practice. Let's design a simple library system.
-                    </p>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="uml-class">
-                            <div class="uml-class-name">Book</div>
-                            <div class="uml-attributes">
-                                <strong>Attributes:</strong><br>
-                                + title: String<br>
-                                + author: String<br>
-                                + isbn: String<br>
-                                - is_loaned_out: Boolean
-                            </div>
-                            <div class="uml-methods">
-                                <strong>Methods:</strong><br>
-                                + loan_book()<br>
-                                + return_book()<br>
-                                + display_details()
-                            </div>
-                        </div>
-                        <div class="uml-class">
-                            <div class="uml-class-name">Member</div>
-                            <div class="uml-attributes">
-                                <strong>Attributes:</strong><br>
-                                - member_id: String<br>
-                                - name: String<br>
-                                - books_on_loan_list: List
-                            </div>
-                            <div class="uml-methods">
-                                <strong>Methods:</strong><br>
-                                + borrow_book(book)<br>
-                                + return_book(book)
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
-                <!-- Slide 8: Access Specifiers -->
-                <section class="slide" data-slide="8">
-                    <h2 class="text-2xl font-bold mb-4">Coding: Access Specifiers</h2>
-                    <ul class="space-y-2 mb-4">
-                        <li><strong class="text-green-600">Public (+):</strong> Accessible from anywhere.</li>
-                        <li><strong class="text-red-600">Private (-):</strong> Accessible only from within the class
-                            itself. Key for encapsulation.</li>
-                        <li><strong class="text-yellow-600">Protected (#):</strong> Accessible within the class and its
-                            subclasses.</li>
-                    </ul>
-                    <p class="mb-2">Example (Python convention):</p>
-                    <div class="bg-gray-800 text-white p-4 rounded-lg font-mono text-sm">
-                        <pre><code><span class="text-purple-400">class</span> <span class="text-green-400">BankAccount</span>:
-    <span class="text-purple-400">def</span> <span class="text-yellow-400">__init__</span>(<span class="text-orange-400">self</span>, initial_balance):
-        <span class="text-orange-400">self</span>.__balance = initial_balance  <span class="text-gray-400"># Private attribute</span>
-        <span class="text-orange-400">self</span>.account_holder = <span class="text-lime-300">"Default"</span> <span class="text-gray-400"># Public attribute</span>
-
-    <span class="text-purple-400">def</span> <span class="text-yellow-400">deposit</span>(<span class="text-orange-400">self</span>, amount): <span class="text-gray-400"># Public method</span>
-        <span class="text-purple-400">if</span> amount > <span class="text-cyan-400">0</span>:
-            <span class="text-orange-400">self</span>.__balance += amount
-
-    <span class="text-purple-400">def</span> <span class="text-yellow-400">get_balance</span>(<span class="text-orange-400">self</span>): <span class="text-gray-400"># Public "getter" method</span>
-        <span class="text-purple-400">return</span> <span class="text-orange-400">self</span>.__balance</code></pre>
-                    </div>
-                </section>
-
-                <!-- Slide 9: Advanced Method Types -->
-                <section class="slide" data-slide="9">
-                    <h2 class="text-2xl font-bold mb-4">Conceptual: Advanced Method Types</h2>
-                    <div class="space-y-4">
-                        <div>
-                            <h3 class="font-semibold text-lg">Abstract Method</h3>
-                            <p>A method declared in an abstract class with no implementation. Subclasses are forced to
-                                provide an implementation. Defines a contract (e.g., `calculateArea()` in a `Shape`
-                                class).</p>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Virtual Method</h3>
-                            <p>A method in a base class that can be overridden by a derived class. Enables polymorphic
-                                behavior. (In Python, all methods are effectively virtual).</p>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Static Method</h3>
-                            <p>Belongs to the class, not an instance. Called using the class name (e.g.,
-                                `MathUtils.add(5, 3)`). Used for utility functions.</p>
-                        </div>
-                    </div>
-                </section>
 
                 <!-- Slide 10: Class Diagrams Intro -->
                 <section class="slide" data-slide="10">
@@ -634,44 +758,129 @@ device.turnOn()  # Output: LightBulb is now ON.
                             <p>Line with a filled diamond on the "whole" class side. <span class="text-2xl ml-4"> whole
                                     ◆───── part</span></p>
                         </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h3 class="font-semibold">Association (General relationship):</h3>
+                            <p>Simple line between classes. Can have multiplicity. <span class="text-2xl ml-4"> e.g., 1,
+                                    , 0..1, 1...
+                                </span></p>
+                        </div>
                     </div>
                 </section>
 
                 <!-- Slide 12: Class Diagram Example -->
                 <section class="slide" data-slide="12">
-                    <h2 class="text-2xl font-bold mb-4">Class Diagram Example: University System</h2>
+                    <h2 class="text-2xl font-bold mb-4">Class Diagram Examples:</h2>
 
-                    <!-- draw.io diagram -->
-                    <div class="mxgraph" style="max-width:100%;border:1px solid transparent;"
-                        data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;dark-mode&quot;:&quot;auto&quot;,&quot;toolbar&quot;:&quot;zoom layers tags lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; agent=\&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\&quot; version=\&quot;27.2.0\&quot;&gt;\n  &lt;diagram name=\&quot;Page-1\&quot; id=\&quot;GPayVPke5uS8veQbgKzN\&quot;&gt;\n    &lt;mxGraphModel dx=\&quot;1106\&quot; dy=\&quot;597\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;850\&quot; pageHeight=\&quot;1100\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n      &lt;root&gt;\n        &lt;mxCell id=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;MCsS3jPaqkLBaGsPqdGy-1\&quot; value=\&quot;Classname\&quot; style=\&quot;swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;130\&quot; y=\&quot;100\&quot; width=\&quot;160\&quot; height=\&quot;86\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;mxRectangle x=\&quot;130\&quot; y=\&quot;100\&quot; width=\&quot;100\&quot; height=\&quot;30\&quot; as=\&quot;alternateBounds\&quot; /&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;MCsS3jPaqkLBaGsPqdGy-2\&quot; value=\&quot;+ field: type\&quot; style=\&quot;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\&quot; parent=\&quot;MCsS3jPaqkLBaGsPqdGy-1\&quot; vertex=\&quot;1\&quot;&gt;\n          &lt;mxGeometry y=\&quot;26\&quot; width=\&quot;160\&quot; height=\&quot;26\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;MCsS3jPaqkLBaGsPqdGy-3\&quot; value=\&quot;\&quot; style=\&quot;line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;\&quot; parent=\&quot;MCsS3jPaqkLBaGsPqdGy-1\&quot; vertex=\&quot;1\&quot;&gt;\n          &lt;mxGeometry y=\&quot;52\&quot; width=\&quot;160\&quot; height=\&quot;8\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;MCsS3jPaqkLBaGsPqdGy-4\&quot; value=\&quot;+ method(type): type\&quot; style=\&quot;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\&quot; parent=\&quot;MCsS3jPaqkLBaGsPqdGy-1\&quot; vertex=\&quot;1\&quot;&gt;\n          &lt;mxGeometry y=\&quot;60\&quot; width=\&quot;160\&quot; height=\&quot;26\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n      &lt;/root&gt;\n    &lt;/mxGraphModel&gt;\n  &lt;/diagram&gt;\n&lt;/mxfile&gt;\n&quot;}">
+                    <div class="mt-6">
+                        <h3 class="font-bold">University Management System</h3>
+                        <p class="mt-4 italic">"A Student <strong>is a</strong> Person. A Department
+                            <strong>has</strong> Professors. A Department <strong>is composed of</strong> Courses."
+                        </p>
+                        <img class="h-auto max-w-full" src="uml_class_ex_1.jpg" alt="image description">
+
                     </div>
-                    <script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
 
 
-                    <div class="text-center">
-                        <div class="uml-class inline-block align-top mx-2">
-                            <div class="uml-class-name">Person</div>
-                        </div>
-                        <div class="uml-relationship">Inheritance<br>▼</div>
-                        <div class="uml-class inline-block align-top mx-2">
-                            <div class="uml-class-name">Student</div>
-                        </div>
-                        <div class="uml-class inline-block align-top mx-2">
-                            <div class="uml-class-name">Professor</div>
-                        </div>
-                        <div class="uml-relationship">Aggregation (has-a)<br>▼</div>
-                        <div class="uml-class inline-block align-top mx-2">
-                            <div class="uml-class-name">Department</div>
-                        </div>
-                        <div class="uml-relationship">Composition (owns-a)<br>▼</div>
-                        <div class="uml-class inline-block align-top mx-2">
-                            <div class="uml-class-name">Course</div>
-                        </div>
+                    <div class="mt-6">
+                        <h3 class="font-bold">E-Shopping Web Application</h3>
+                        <img class="h-auto max-w-full" src="uml_class_ex_2.jpg" alt="image description">
+
                     </div>
-                    <p class="mt-4 text-center italic">"A Student <strong>is a</strong> Person. A Department
-                        <strong>has</strong> Professors. A Department <strong>is composed of</strong> Courses."
-                    </p>
+
                 </section>
+
+                <!-- Slide 7: Practical Experience -->
+                <section class="slide" data-slide="7">
+                    <h2 class="text-2xl font-bold mb-4">Practical Experience: Writing OOP Programs</h2>
+                    <p class="mb-4">This is about putting concepts into practice. Let's design a simple library system.
+
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="uml-class">
+                            <div class="uml-class-name">Book</div>
+                            <div class="uml-attributes">
+                                <strong>Attributes:</strong><br>
+                                + title: String<br>
+                                + author: String<br>
+                                + isbn: String<br>
+                                - is_loaned_out: Boolean
+                            </div>
+                            <div class="uml-methods">
+                                <strong>Methods:</strong><br>
+                                + loan_book()<br>
+                                + return_book()<br>
+                                + display_details()
+                            </div>
+                        </div>
+                        <div class="uml-class">
+                            <div class="uml-class-name">Member</div>
+                            <div class="uml-attributes">
+                                <strong>Attributes:</strong><br>
+                                - member_id: String<br>
+                                - name: String<br>
+                                - books_on_loan_list: List
+                            </div>
+                            <div class="uml-methods">
+                                <strong>Methods:</strong><br>
+                                + borrow_book(book)<br>
+                                + return_book(book)
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="mt-2">Write two python classes for following class diagram.</p>
+                </section>
+
+                <!-- Slide 8: Access Specifiers -->
+                <section class="slide" data-slide="8">
+                    <h2 class="text-2xl font-bold mb-4">Coding: Access Specifiers</h2>
+                    <ul class="space-y-2 mb-4">
+                        <li><strong class="text-green-600">Public (+ in UML):</strong> <strong>Accessible from
+                                anywhere.</strong>
+                            <br>
+                            Members
+                            (attributes/methods) are accessible from anywhere (inside the class, subclasses, outside the
+                            class).
+                        </li>
+                        <li><strong class="text-red-600">Private (- in UML):</strong> <strong>Accessible only from
+                                within the
+                                class
+                                itself. Key for encapsulation.</strong>
+                            <br>
+                            Members are accessible only from within the class itself. Not by subclasses or outside code.
+                            This is key for encapsulation and information hiding.
+
+                        </li>
+                        <li><strong class="text-yellow-600">Protected (# in UML):</strong> <strong>Accessible within the
+                                class
+                                and its
+                                subclasses.</strong>
+                            <br>
+                            Members are accessible from within the class itself and by its subclasses. Not directly
+                            accessible from unrelated outside code. (Use varies by language; Python uses conventions
+                            like _protected and __private for name mangling).
+                        </li>
+                    </ul>
+                    <p class="mb-2">Example (Python convention):</p>
+                    <div class="bg-gray-800 text-white p-4 rounded-lg font-mono text-sm">
+                        <pre><code><span class="text-purple-400">class</span> <span class="text-green-400">BankAccount</span>:
+    <span class="text-purple-400">def</span> <span class="text-yellow-400">__init__</span>(<span class="text-orange-400">self</span>, initial_balance):
+        <span class="text-orange-400">self</span>.__balance = initial_balance  <span class="text-gray-400"># Private attribute</span>
+        <span class="text-orange-400">self</span>.account_holder = <span class="text-lime-300">"Default"</span> <span class="text-gray-400"># Public attribute</span>
+
+    <span class="text-purple-400">def</span> <span class="text-yellow-400">deposit</span>(<span class="text-orange-400">self</span>, amount): <span class="text-gray-400"># Public method</span>
+        <span class="text-purple-400">if</span> amount > <span class="text-cyan-400">0</span>:
+            <span class="text-orange-400">self</span>.__balance += amount
+
+    <span class="text-purple-400">def</span> <span class="text-yellow-400">get_balance</span>(<span class="text-orange-400">self</span>): <span class="text-gray-400"># Public "getter" method</span>
+        <span class="text-purple-400">return</span> <span class="text-orange-400">self</span>.__balance</code></pre>
+                    </div>
+
+                    <p class="mt-2">Create UML class diagram referencing the given python code.</p>
+                </section>
+
+
+
 
                 <!-- Slide 13: Summary -->
                 <section class="slide" data-slide="13">
