@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive SQL Cheat Sheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: A single-page application with a sticky side navigation bar for quick access to the main topics (DDL, DML, JOINs) and a main content area. This structure is ideal for a cheat sheet, allowing users to quickly navigate to the information they need rather than scrolling through a long document. The key interaction involves clicking nav links to scroll to the relevant section. For JOINs, interactive Venn-style diagrams will be used to visually explain the concept, which is more intuitive than text alone. This design prioritizes fast information retrieval and enhanced learning through visualization. -->
+    <!-- Visualization & Content Choices: The report's content is entirely textual and code-based. The primary goal is to inform and organize this information effectively. DDL and DML sections are presented using structured HTML with styled code blocks for clarity. The most significant enhancement is for the 'JOIN' section. Goal: Explain Relationships. Viz/Method: HTML/CSS is used to create Venn diagram-like visuals for each JOIN type. Interaction: Buttons associated with each JOIN type will dynamically style the diagrams to show which data is returned, providing instant visual feedback. This is more effective for learning than a static image or text description. Library: Vanilla JS for all interactions. Confirmed NO SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap');
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+        .nav-link.active {
+            background-color: #14B8A6; /* teal-500 */
+            color: white;
+        }
+        .highlight-clause {
+            background-color: #FCD34D; /* amber-300 */
+            border-radius: 3px;
+            padding: 0 2px;
+        }
+        .code-block {
+            background-color: #1E293B; /* slate-800 */
+            color: #E2E8F0; /* slate-200 */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            white-space: pre;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-stone-100 p-6 sticky top-0 h-screen hidden md:block">
+            <h1 class="font-bold text-xl text-teal-700 mb-8">SQL Cheat Sheet</h1>
+            <nav id="desktop-nav">
+                <ul class="space-y-2">
+                    <li><a href="#ddl" class="nav-link block font-medium text-stone-600 hover:text-stone-900 hover:bg-stone-200 rounded-md px-4 py-2 transition-colors duration-200">Data Definition (DDL)</a></li>
+                    <li><a href="#dml" class="nav-link block font-medium text-stone-600 hover:text-stone-900 hover:bg-stone-200 rounded-md px-4 py-2 transition-colors duration-200">Data Manipulation (DML)</a></li>
+                    <li><a href="#joins" class="nav-link block font-medium text-stone-600 hover:text-stone-900 hover:bg-stone-200 rounded-md px-4 py-2 transition-colors duration-200">JOINs</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:p-10">
+            <div class="max-w-4xl mx-auto">
+                
+                <!-- DDL Section -->
+                <section id="ddl" class="mb-16">
+                    <h2 class="text-3xl font-bold border-b-2 border-teal-500 pb-2 mb-6">1. Data Definition Language (DDL)</h2>
+                    <p class="mb-8 text-stone-600">DDL statements are used to build and modify the structure of your database and tables. This section covers the fundamental `CREATE TABLE` command, which is the starting point for storing any data.</p>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-semibold mb-3">CREATE TABLE</h3>
+                        <p class="mb-4">Creates a new table in the database. You must specify the table name, column names, the data type for each column, and any constraints.</p>
+                        
+                        <h4 class="font-semibold mt-6 mb-2">Syntax</h4>
+                        <div class="code-block font-code text-sm">CREATE TABLE table_name (
+    column1_name data_type [constraints],
+    column2_name data_type [constraints],
+    ...
+    [table_constraints]
+);</div>
+
+                        <h4 class="font-semibold mt-6 mb-2">Common Data Types</h4>
+                        <ul class="list-disc list-inside space-y-2 text-stone-700">
+                           <li><code class="font-code bg-stone-200 px-1 rounded">INT</code>: Whole numbers.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">VARCHAR(n)</code>: Variable-length string with max length n.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">DECIMAL(p, s)</code>: Number with 'p' total digits and 's' decimal places.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">DATE</code>: Stores a date (YYYY-MM-DD).</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">BOOLEAN</code>: Stores TRUE or FALSE.</li>
+                        </ul>
+
+                        <h4 class="font-semibold mt-6 mb-2">Common Constraints</h4>
+                        <ul class="list-disc list-inside space-y-2 text-stone-700">
+                           <li><code class="font-code bg-stone-200 px-1 rounded">PRIMARY KEY</code>: Uniquely identifies each record.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">FOREIGN KEY</code>: Links a record to another table.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">NOT NULL</code>: Ensures a column must have a value.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">UNIQUE</code>: Ensures all values in a column are different.</li>
+                        </ul>
+
+                        <h4 class="font-semibold mt-6 mb-2">Example</h4>
+                        <div class="code-block font-code text-sm">CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);</div>
+                    </div>
+                </section>
+
+                <!-- DML Section -->
+                <section id="dml" class="mb-16">
+                    <h2 class="text-3xl font-bold border-b-2 border-teal-500 pb-2 mb-6">2. Data Manipulation Language (DML)</h2>
+                    <p class="mb-8 text-stone-600">Once your tables are created, DML statements are used to add, retrieve, modify, and delete the data within them. These four operations (`SELECT`, `INSERT`, `UPDATE`, `DELETE`) are the most frequently used commands in SQL.</p>
+                    
+                    <div class="space-y-8">
+                        <!-- SELECT -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-2xl font-semibold mb-3">SELECT</h3>
+                            <p class="mb-4">Retrieves data from one or more tables. This is the most common SQL command.</p>
+                            <h4 class="font-semibold mt-6 mb-2">Example with Clause Highlighting</h4>
+                            <p class="text-sm text-stone-500 mb-2">Click the buttons to see which part of the query does what.</p>
+                            <div class="mb-4 space-x-2">
+                                <button data-clause="select" class="clause-btn bg-teal-500 text-white px-3 py-1 text-sm rounded-md hover:bg-teal-600 transition">SELECT</button>
+                                <button data-clause="from" class="clause-btn bg-cyan-500 text-white px-3 py-1 text-sm rounded-md hover:bg-cyan-600 transition">FROM</button>
+                                <button data-clause="where" class="clause-btn bg-emerald-500 text-white px-3 py-1 text-sm rounded-md hover:bg-emerald-600 transition">WHERE</button>
+                                <button data-clause="reset" class="clause-btn bg-stone-400 text-white px-3 py-1 text-sm rounded-md hover:bg-stone-500 transition">Reset</button>
+                            </div>
+                            <div id="select-query" class="code-block font-code text-sm"><span class="select-clause">SELECT FirstName, LastName</span>
+<span class="from-clause">FROM Employees</span>
+<span class="where-clause">WHERE DepartmentID = 1;</span></div>
+                        </div>
+
+                        <!-- INSERT -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-2xl font-semibold mb-3">INSERT INTO</h3>
+                            <p class="mb-4">Adds new rows of data to a table.</p>
+                             <div class="code-block font-code text-sm">INSERT INTO Employees (FirstName, LastName, DepartmentID)
+VALUES ('Jane', 'Smith', 1);</div>
+                        </div>
+                        
+                        <!-- UPDATE -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                             <h3 class="text-2xl font-semibold mb-3">UPDATE</h3>
+                             <p class="mb-4">Modifies existing records in a table. <strong class="text-red-600">Always use a `WHERE` clause!</strong></p>
+                              <div class="code-block font-code text-sm">UPDATE Employees
+SET LastName = 'Jones'
+WHERE FirstName = 'Jane';</div>
+                        </div>
+
+                        <!-- DELETE -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                             <h3 class="text-2xl font-semibold mb-3">DELETE</h3>
+                             <p class="mb-4">Removes existing records from a table. <strong class="text-red-600">Always use a `WHERE` clause!</strong></p>
+                             <div class="code-block font-code text-sm">DELETE FROM Employees
+WHERE FirstName = 'Jane';</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- JOINS Section -->
+                <section id="joins">
+                    <h2 class="text-3xl font-bold border-b-2 border-teal-500 pb-2 mb-6">3. JOINs</h2>
+                    <p class="mb-8 text-stone-600">JOIN clauses are essential for relational databases. They allow you to combine rows from two or more tables based on a related column between them. This section provides an interactive visualization to help you understand how each type of JOIN works.</p>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="md:flex md:space-x-8">
+                            <!-- JOIN Diagram -->
+                            <div class="flex-1 mb-8 md:mb-0">
+                                <h4 class="font-semibold mb-4 text-center">Interactive JOIN Visualizer</h4>
+                                <div class="relative w-64 h-48 mx-auto">
+                                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-20">
+                                        <div class="font-bold">Employees</div>
+                                        <div id="join-type-label" class="text-teal-600 font-bold text-lg transition-opacity duration-300">INNER JOIN</div>
+                                        <div class="font-bold">Departments</div>
+                                    </div>
+                                    <div id="left-circle" class="circle absolute top-0 left-0 w-36 h-36 bg-cyan-200 rounded-full transition-all duration-300 opacity-70"></div>
+                                    <div id="right-circle" class="circle absolute top-12 right-0 w-36 h-36 bg-emerald-200 rounded-full transition-all duration-300 opacity-70"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- JOIN Controls -->
+                            <div class="flex-1">
+                                <h4 class="font-semibold mb-2">Select a JOIN Type</h4>
+                                <div class="space-y-3" id="join-controls">
+                                    <button data-join="inner" class="join-btn w-full text-left p-3 rounded-md border-2 border-teal-500 bg-teal-50">
+                                        <strong class="text-teal-700">INNER JOIN</strong>
+                                        <p class="text-sm text-stone-600">Returns records with matching values in both tables.</p>
+                                    </button>
+                                    <button data-join="left" class="join-btn w-full text-left p-3 rounded-md border-2 border-transparent hover:border-teal-500">
+                                        <strong class="text-teal-700">LEFT JOIN</strong>
+                                        <p class="text-sm text-stone-600">Returns all records from the left table, and matched records from the right.</p>
+                                    </button>
+                                    <button data-join="right" class="join-btn w-full text-left p-3 rounded-md border-2 border-transparent hover:border-teal-500">
+                                        <strong class="text-teal-700">RIGHT JOIN</strong>
+                                        <p class="text-sm text-stone-600">Returns all records from the right table, and matched records from the left.</p>
+                                    </button>
+                                    <button data-join="full" class="join-btn w-full text-left p-3 rounded-md border-2 border-transparent hover:border-teal-500">
+                                        <strong class="text-teal-700">FULL OUTER JOIN</strong>
+                                        <p class="text-sm text-stone-600">Returns all records when there is a match in either table.</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                         <h4 class="font-semibold mt-8 mb-2">Example Query</h4>
+                         <div class="code-block font-code text-sm">SELECT Employees.FirstName, Departments.DepartmentName
+FROM Employees
+<span id="join-query-type" class="text-amber-300">INNER JOIN</span> Departments ON Employees.DepartmentID = Departments.DepartmentID;</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Clause Highlighting ---
+            const clauseButtons = document.querySelectorAll('.clause-btn');
+            const queryContainer = document.getElementById('select-query');
+
+            function resetHighlights() {
+                queryContainer.querySelectorAll('span[class*="-clause"]').forEach(span => {
+                    span.classList.remove('highlight-clause');
+                });
+            }
+
+            clauseButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const clause = button.dataset.clause;
+                    resetHighlights();
+                    if (clause !== 'reset') {
+                        const spanToHighlight = queryContainer.querySelector(`.${clause}-clause`);
+                        if(spanToHighlight) {
+                             spanToHighlight.classList.add('highlight-clause');
+                        }
+                    }
+                });
+            });
+
+            // --- JOIN Visualizer ---
+            const joinControls = document.getElementById('join-controls');
+            const joinButtons = joinControls.querySelectorAll('.join-btn');
+            const leftCircle = document.getElementById('left-circle');
+            const rightCircle = document.getElementById('right-circle');
+            const joinLabel = document.getElementById('join-type-label');
+            const joinQueryType = document.getElementById('join-query-type');
+            
+            const joinStyles = {
+                inner: {
+                    left: 'bg-cyan-500',
+                    right: 'bg-emerald-500',
+                    transform: 'scale(0.8)',
+                    label: 'INNER JOIN'
+                },
+                left: {
+                    left: 'bg-cyan-500',
+                    right: 'bg-emerald-200',
+                    transform: 'scale(1)',
+                    label: 'LEFT JOIN'
+                },
+                right: {
+                    left: 'bg-cyan-200',
+                    right: 'bg-emerald-500',
+                    transform: 'scale(1)',
+                    label: 'RIGHT JOIN'
+                },
+                full: {
+                    left: 'bg-cyan-500',
+                    right: 'bg-emerald-500',
+                    transform: 'scale(1)',
+                    label: 'FULL OUTER JOIN'
+                },
+            };
+
+            function updateJoinVisual(type) {
+                const styles = joinStyles[type];
+                
+                // Update circle colors
+                leftCircle.className = `circle absolute top-0 left-0 w-36 h-36 rounded-full transition-all duration-300 opacity-70 ${styles.left}`;
+                rightCircle.className = `circle absolute top-12 right-0 w-36 h-36 rounded-full transition-all duration-300 opacity-70 ${styles.right}`;
+                
+                // Update circle transform for inner join emphasis
+                leftCircle.style.transform = styles.transform;
+                rightCircle.style.transform = styles.transform;
+
+                // Update text labels
+                joinLabel.textContent = styles.label;
+                joinQueryType.textContent = styles.label;
+
+                // Update button styles
+                joinButtons.forEach(btn => {
+                    if (btn.dataset.join === type) {
+                        btn.classList.add('bg-teal-50', 'border-teal-500');
+                        btn.classList.remove('border-transparent');
+                    } else {
+                        btn.classList.remove('bg-teal-50', 'border-teal-500');
+                        btn.classList.add('border-transparent');
+                    }
+                });
+            }
+
+            joinControls.addEventListener('click', (e) => {
+                const button = e.target.closest('.join-btn');
+                if (button) {
+                    const joinType = button.dataset.join;
+                    updateJoinVisual(joinType);
+                }
+            });
+
+            // Set initial state
+            updateJoinVisual('inner');
+
+            // --- Active Nav Link on Scroll ---
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
