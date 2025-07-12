@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Guide to Client-Server Databases</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* --- CSS Variables for Easy Theming --- */
+    :root {
+      --primary-dark: #1a237e;
+      --primary-main: #3949ab;
+      --primary-light: #5c6bc0;
+      --background-light: #f6f8fa;
+      --content-bg: #e8eaf6;
+      --card-bg: #ffffff;
+      --text-dark: #212121;
+      --text-light: #ffffff;
+      --success-color: #2e7d32;
+      --error-color: #c62828;
+      --border-color: #e0e0e0;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* --- General Body & Typography --- */
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      background-color: var(--background-light);
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.5em;
+    }
+
+    h2 {
+      border-bottom: 3px solid var(--primary-main);
+      padding-bottom: 10px;
+      margin-top: 50px;
+    }
+    
+    p, li {
+        font-size: 16px;
+    }
+
+    /* --- Accordion (Collapsible) Styles --- */
+    .accordion-item {
+        background-color: var(--card-bg);
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        overflow: hidden; /* Important for border-radius */
+    }
+
+    .accordion-header {
+      background-color: var(--card-bg);
+      color: var(--primary-main);
+      cursor: pointer;
+      padding: 18px 25px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .accordion-header:hover, .accordion-header.active {
+      background-color: var(--content-bg);
+    }
+
+    .accordion-icon {
+      font-size: 24px;
+      font-weight: 600;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .accordion-header.active .accordion-icon {
+      transform: rotate(45deg);
+    }
+
+    .accordion-content {
+      padding: 0 25px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out, padding 0.3s ease;
+    }
+    .accordion-content p, .accordion-content ul {
+        margin-top: 0;
+        padding-bottom: 20px;
+    }
+    .accordion-content ul {
+        padding-left: 20px;
+    }
+    .accordion-content code {
+        background: #d1d5db;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+    }
+
+    /* --- Interactive Diagram --- */
+    .diagram {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+        background: var(--content-bg);
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+    .diagram-box {
+        text-align: center;
+        padding: 15px 25px;
+        background: var(--card-bg);
+        border: 2px solid var(--primary-light);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+    }
+    .arrows {
+        font-size: 2em;
+        color: var(--primary-main);
+        font-weight: bold;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* --- Quiz Styles --- */
+    .quiz {
+      background-color: var(--card-bg);
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .question-container {
+      margin-bottom: 25px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+    .question-text {
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    .option {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .option label {
+        margin-left: 8px;
+        cursor: pointer;
+    }
+    .feedback {
+      font-weight: 600;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      display: none; /* Hidden by default */
+    }
+    .feedback.correct {
+        color: var(--success-color);
+        background-color: #e8f5e9;
+    }
+    .feedback.incorrect {
+        color: var(--error-color);
+        background-color: #ffebee;
+    }
+
+    button.submit-quiz {
+      background: var(--primary-main);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      display: block;
+      margin: 20px auto 0;
+      transition: background-color 0.3s ease;
+    }
+    button.submit-quiz:hover {
+      background: var(--primary-dark);
+    }
+    #quiz-score {
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: 700;
+        margin-top: 25px;
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <h1>An Advanced Guide to Client-Server Databases</h1>
+
+    <section id="introduction">
+      <h2>1. The Client-Server Architecture</h2>
+      <div class="accordion-item">
+        <div class="accordion-header">
+            What is a Client-Server Database?
+            <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-content">
+          <p>A client-server database system separates a database into two parts: a <b>client</b> (the front-end or user application) and a <b>server</b> (the back-end). Multiple clients can connect to a single, central server to request and manipulate data.
+          </p>
+          <div class="diagram">
+              <div class="diagram-box">Client 1<br>(e.g., App)</div>
+              <div class="arrows">
+                  <span>⇄</span>
+              </div>
+              <div class="diagram-box">Database<br>Server</div>
+               <div class="arrows">
+                  <span>⇄</span>
+              </div>
+              <div class="diagram-box">Client 2<br>(e.g., Website)</div>
+          </div>
+          <p>The <b>Server's job</b> is to store the data, manage access, process complex queries, and ensure data integrity. The <b>Client's job</b> is to provide a user interface and send requests (like `SELECT` or `UPDATE` queries) to the server.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="concurrency">
+      <h2>2. The Challenge of Concurrency</h2>
+      <div class="accordion-item">
+        <div class="accordion-header">
+            Simultaneous Access and Its Dangers
+            <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-content">
+          <p>
+            The great strength of a client-server model is allowing many users to work at once. But what happens when two users try to edit the <em>same piece of data at the same time</em>? This is called a concurrency issue.
+          </p>
+          <p><b>Analogy:</b> Imagine two people are editing the same sentence in a shared online document. If both click "Save" at the same moment, whose changes are kept? One person's work will likely overwrite and erase the other's. This is known as a <b>Lost Update</b> problem, and it compromises data integrity.</p>
+        </div>
+      </div>
+       <div class="accordion-item">
+        <div class="accordion-header">
+            Common Concurrency Problems
+            <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-content">
+          <ul>
+            <li><b>Lost Update:</b> As described above, one transaction's update is overwritten by another.</li>
+            <li><b>Dirty Read:</b> One transaction reads data that has been modified by another, uncommitted (unfinished) transaction. If the first transaction rolls back its changes, the second transaction has read "dirty" or invalid data.</li>
+            <li><b>Phantom Read:</b> A transaction reads a set of rows. Another transaction then inserts a new row that would have been in the first read. If the first transaction re-reads, it sees a "phantom" row that wasn't there before, causing inconsistency.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="solutions">
+        <h2>3. Ensuring Data Integrity</h2>
+        <div class="accordion-item">
+            <div class="accordion-header">
+                Transactions and ACID Properties
+                <span class="accordion-icon">+</span>
+            </div>
+            <div class="accordion-content">
+              <p>To solve concurrency issues, databases group operations into <b>Transactions</b>. A transaction is a single, logical unit of work. For a transaction to be valid, it must follow the ACID properties:</p>
+              <ul>
+                <li><b>Atomicity:</b> All operations within the transaction succeed, or none of them do. It's "all or nothing."</li>
+                <li><b>Consistency:</b> The transaction brings the database from one valid state to another.</li>
+                <li><b>Isolation:</b> Concurrent transactions are isolated from each other; they do not interfere. This is where concurrency control happens.</li>
+                <li><b>Durability:</b> Once a transaction is committed (saved), it will remain so, even in the event of a power loss or crash.</li>
+              </ul>
+            </div>
+          </div>
+        <div class="accordion-item">
+          <div class="accordion-header">
+              Methods for Concurrency Control
+              <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p>To enforce the 'Isolation' part of ACID, database management systems (DBMS) use several techniques:</p>
+            <ul>
+              <li><b>Record Locking:</b> The most common method. When a client begins to edit a record, the server "locks" it. Other clients can read the record, but they cannot write to it until the first client's transaction is complete and the lock is released.</li>
+              <li><b>Serialisation:</b> This technique forces transactions to execute one after another in a specific sequence, preventing any overlap. While safe, it can be slow if there are many competing transactions.</li>
+              <li><b>Timestamp Ordering:</b> The DBMS assigns a unique, chronological timestamp to each transaction. It then processes operations based on the timestamp order to prevent conflicts.</li>
+              <li><b>Commitment Ordering:</b> A more advanced method that orders transactions based on when they commit, helping to avoid deadlocks and ensure consistency.</li>
+            </ul>
+          </div>
+        </div>
+    </section>
+
+
+    <section class="quiz">
+      <h2>Quick Quiz: Test Your Knowledge</h2>
+      <form id="quizForm">
+        
+        <div class="question-container">
+          <p class="question-text">1. In the client-server model, which component is primarily responsible for ensuring data integrity and processing queries?</p>
+          <div class="options">
+            <span class="option"><input type="radio" name="q1" value="a" id="q1a"><label for="q1a">The Client Application</label></span>
+            <span class="option"><input type="radio" name="q1" value="b" id="q1b"><label for="q1b">The Network</label></span>
+            <span class="option"><input type="radio" name="q1" value="c" id="q1c"><label for="q1c">The Database Server</label></span>
+            <span class="option"><input type="radio" name="q1" value="d" id="q1d"><label for="q1d">The User's Computer</label></span>
+          </div>
+          <div class="feedback" id="f1"></div>
+        </div>
+        
+        <div class="question-container">
+          <p class="question-text">2. What is the "Lost Update" problem?</p>
+          <div class="options">
+            <span class="option"><input type="radio" name="q2" value="a" id="q2a"><label for="q2a">One user's changes are overwritten by another user's simultaneous changes.</label></span>
+            <span class="option"><input type="radio" name="q2" value="b" id="q2b"><label for="q2b">A user loses their internet connection while saving.</label></span>
+            <span class="option"><input type="radio" name="q2" value="c" id="q2c"><label for="q2c">The database server crashes and loses all recent data.</label></span>
+            <span class="option"><input type="radio" name="q2" value="d" id="q2d"><label for="q2d">A user reads data that another transaction hasn't finished yet.</label></span>
+          </div>
+          <div class="feedback" id="f2"></div>
+        </div>
+
+        <div class="question-container">
+          <p class="question-text">3. Which ACID property ensures that a transaction is "all or nothing"?</p>
+          <div class="options">
+            <span class="option"><input type="radio" name="q3" value="a" id="q3a"><label for="q3a">Isolation</label></span>
+            <span class="option"><input type="radio" name="q3" value="b" id="q3b"><label for="q3b">Durability</label></span>
+            <span class="option"><input type="radio" name="q3" value="c" id="q3c"><label for="q3c">Consistency</label></span>
+            <span class="option"><input type="radio" name="q3" value="d" id="q3d"><label for="q3d">Atomicity</label></span>
+          </div>
+          <div class="feedback" id="f3"></div>
+        </div>
+
+        <div class="question-container">
+          <p class="question-text">4. Which concurrency control method prevents edits by placing a temporary hold on a piece of data?</p>
+          <div class="options">
+            <span class="option"><input type="radio" name="q4" value="a" id="q4a"><label for="q4a">Timestamp Ordering</label></span>
+            <span class="option"><input type="radio" name="q4" value="b" id="q4b"><label for="q4b">Record Locking</label></span>
+            <span class="option"><input type="radio" name="q4" value="c" id="q4c"><label for="q4c">Serialisation</label></span>
+            <span class="option"><input type="radio" name="q4" value="d" id="q4d"><label for="q4d">Commitment Ordering</label></span>
+          </div>
+          <div class="feedback" id="f4"></div>
+        </div>
+
+        <button type="button" class="submit-quiz" onclick="checkAnswers()">Check My Answers</button>
+        <div id="quiz-score"></div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // --- Accordion Logic ---
+    const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+    accordionHeaders.forEach(header => {
+      header.addEventListener("click", function() {
+        // Toggle active class on the header
+        this.classList.toggle("active");
+        
+        const content = this.nextElementSibling;
+        
+        // If the content is open, set max-height to its scroll height. Otherwise, set to 0.
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        } 
+      });
+    });
+
+    // --- Quiz Logic ---
+    function checkAnswers() {
+      const correctAnswers = {
+        q1: 'c',
+        q2: 'a',
+        q3: 'd',
+        q4: 'b'
+      };
+      
+      const questions = Object.keys(correctAnswers);
+      let score = 0;
+
+      questions.forEach((question, index) => {
+        const feedbackEl = document.getElementById(`f${index + 1}`);
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        
+        feedbackEl.style.display = 'block'; // Show feedback
+
+        if (selectedOption) {
+          if (selectedOption.value === correctAnswers[question]) {
+            feedbackEl.textContent = '✔️ Correct! Well done.';
+            feedbackEl.className = 'feedback correct';
+            score++;
+          } else {
+            feedbackEl.textContent = `❌ Incorrect. The right answer was option ${correctAnswers[question].toUpperCase()}.`;
+            feedbackEl.className = 'feedback incorrect';
+          }
+        } else {
+          feedbackEl.textContent = '⚠️ You did not answer this question.';
+          feedbackEl.className = 'feedback incorrect';
+        }
+      });
+      
+      const scoreEl = document.getElementById('quiz-score');
+      scoreEl.textContent = `You scored ${score} out of ${questions.length}!`;
+    }
+  </script>
+
+</body>
+</html>
