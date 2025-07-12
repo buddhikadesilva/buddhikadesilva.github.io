@@ -57,45 +57,40 @@
             <div class="max-w-4xl mx-auto">
                 
                 <!-- DDL Section -->
+                 <!-- DDL Section -->
                 <section id="ddl" class="mb-16">
-                    <h2 class="text-3xl font-bold border-b-2 border-teal-500 pb-2 mb-6">1. Data Definition Language (DDL)</h2>
-                    <p class="mb-8 text-stone-600">DDL statements are used to build and modify the structure of your database and tables. This section covers the fundamental `CREATE TABLE` command, which is the starting point for storing any data.</p>
+                    <h2 class="text-3xl font-bold border-b-2 border-teal-500 pb-2 mb-6">1. Data Definition Language (DDL) in SQLite</h2>
+                    <p class="mb-8 text-stone-600">DDL statements in SQLite are used to define the database schema. While SQLite accepts many data type keywords for compatibility, it ultimately uses a more flexible system called "Type Affinity".</p>
                     
                     <div class="bg-white p-6 rounded-lg shadow-sm">
                         <h3 class="text-2xl font-semibold mb-3">CREATE TABLE</h3>
-                        <p class="mb-4">Creates a new table in the database. You must specify the table name, column names, the data type for each column, and any constraints.</p>
+                        <p class="mb-4">Creates a new table. You specify column names and their "type affinity", which guides how data is stored.</p>
                         
-                        <h4 class="font-semibold mt-6 mb-2">Syntax</h4>
-                        <div class="code-block font-code text-sm">CREATE TABLE table_name (
-    column1_name data_type [constraints],
-    column2_name data_type [constraints],
-    ...
-    [table_constraints]
-);</div>
-
-                        <h4 class="font-semibold mt-6 mb-2">Common Data Types</h4>
+                        <h4 class="font-semibold mt-6 mb-2">SQLite Data Types (Affinities)</h4>
+                        <p class="text-sm text-stone-600 mb-4">SQLite has five core storage types. When you declare a type like `VARCHAR(20)`, SQLite assigns it an affinity (in this case, `TEXT`).</p>
                         <ul class="list-disc list-inside space-y-2 text-stone-700">
-                           <li><code class="font-code bg-stone-200 px-1 rounded">INT</code>: Whole numbers.</li>
-                           <li><code class="font-code bg-stone-200 px-1 rounded">VARCHAR(n)</code>: Variable-length string with max length n.</li>
-                           <li><code class="font-code bg-stone-200 px-1 rounded">DECIMAL(p, s)</code>: Number with 'p' total digits and 's' decimal places.</li>
-                           <li><code class="font-code bg-stone-200 px-1 rounded">DATE</code>: Stores a date (YYYY-MM-DD).</li>
-                           <li><code class="font-code bg-stone-200 px-1 rounded">BOOLEAN</code>: Stores TRUE or FALSE.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">INTEGER</code>: A signed integer. Used for whole numbers and booleans (0 or 1). Keywords like `INT`, `BOOLEAN` map to this.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">TEXT</code>: A text string. Keywords like `VARCHAR`, `CHAR`, `CLOB` map to this. Length is not enforced.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">REAL</code>: A floating-point (decimal) value. Keywords like `FLOAT`, `DOUBLE` map to this.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">NUMERIC</code>: Can store any value. It attempts to store data as `INTEGER` or `REAL`. Keywords like `DECIMAL` or `DATE` map to this.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">BLOB</code>: Stores data exactly as it was input (e.g., for images or files).</li>
                         </ul>
 
                         <h4 class="font-semibold mt-6 mb-2">Common Constraints</h4>
                         <ul class="list-disc list-inside space-y-2 text-stone-700">
-                           <li><code class="font-code bg-stone-200 px-1 rounded">PRIMARY KEY</code>: Uniquely identifies each record.</li>
-                           <li><code class="font-code bg-stone-200 px-1 rounded">FOREIGN KEY</code>: Links a record to another table.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">PRIMARY KEY</code>: Uniquely identifies each record. Using `INTEGER PRIMARY KEY` creates an auto-incrementing alias for the `rowid`.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">FOREIGN KEY</code>: Links a record to another table (must be enabled).</li>
                            <li><code class="font-code bg-stone-200 px-1 rounded">NOT NULL</code>: Ensures a column must have a value.</li>
                            <li><code class="font-code bg-stone-200 px-1 rounded">UNIQUE</code>: Ensures all values in a column are different.</li>
+                           <li><code class="font-code bg-stone-200 px-1 rounded">DEFAULT</code>: Provides a default value for a column.</li>
                         </ul>
 
-                        <h4 class="font-semibold mt-6 mb-2">Example</h4>
+                        <h4 class="font-semibold mt-6 mb-2">SQLite Example</h4>
                         <div class="code-block font-code text-sm">CREATE TABLE Employees (
-    EmployeeID INT PRIMARY KEY,
-    FirstName VARCHAR(50) NOT NULL,
-    LastName VARCHAR(50) NOT NULL,
-    DepartmentID INT,
+    EmployeeID INTEGER PRIMARY KEY, -- Creates an auto-incrementing key
+    FirstName TEXT NOT NULL,
+    LastName TEXT NOT NULL,
+    DepartmentID INTEGER,
     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
 );</div>
                     </div>
@@ -240,9 +235,9 @@ FROM Employees
             
             const joinStyles = {
                 inner: {
-                    left: 'bg-cyan-500',
-                    right: 'bg-emerald-500',
-                    transform: 'scale(0.8)',
+                    left: 'bg-cyan-200',
+                    right: 'bg-emerald-200',
+                    transform: 'scale(1)',
                     label: 'INNER JOIN'
                 },
                 left: {
