@@ -1,0 +1,338 @@
+ 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.10.3 Database Design and Normalisation Techniques</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+<div class="container mx-auto p-8">
+ <header class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-gray-900">4.10.3 Database Design and Normalisation Techniques</h1>
+        <p class="text-xl text-gray-600 mt-2">An interactive guide to understanding database normalisation.</p>
+    </header>
+
+    <main>
+        <!-- Why Normalise a Database? -->
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Why Normalise Databases?</h2>
+            <p class="mb-4">Database normalisation is the process of structuring a relational database to reduce data redundancy and improve data integrity. It was first proposed by Edgar F. Codd in the 1970s to prevent undesirable dependencies between data. The main goals are to eliminate redundant data, minimize errors when modifying data, and simplify the process of querying the database.</p>
+            <div class="space-y-4">
+                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+                    <p class="font-bold">Key Objectives of Normalisation:</p>
+                    <ul class="list-disc list-inside mt-2">
+                        <li><strong>Reduce Data Redundancy:</strong> Avoids storing the same information in multiple places, which saves storage space and prevents inconsistencies.</li>
+                        <li><strong>Improve Data Integrity:</strong> Ensures data is reliable and accurate. When data is only stored once, updates are simpler and less prone to errors.</li>
+                        <li><strong>Prevent Data Anomalies:</strong> Helps to avoid issues with inserting, updating, and deleting data. This includes insertion, deletion, and update anomalies.</li>
+                        <li><strong>Simplify Database Maintenance:</strong> A well-normalised database is easier to manage and maintain.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Normalise Relations to Third Normal Form -->
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Normalising Relations to Third Normal Form (3NF)</h2>
+            <p class="mb-4">To reach Third Normal Form (3NF), a relation must first be in First Normal Form (1NF) and Second Normal Form (2NF).</p>
+
+            <!-- 1NF -->
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-2 text-gray-700">First Normal Form (1NF)</h3>
+                <p>A relation is in 1NF if all its attributes contain only atomic (indivisible) values, and each record is unique.</p>
+                <div class="mt-4">
+                    <button onclick="toggleVisibility('example1nf')" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        Toggle 1NF Example
+                    </button>
+                    <div id="example1nf" class="hidden mt-4 p-4 bg-gray-50 rounded-lg border">
+                        <p class="font-bold mb-2">Un-normalised Table:</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="py-2 px-4 border-b">StudentID</th>
+                                        <th class="py-2 px-4 border-b">Name</th>
+                                        <th class="py-2 px-4 border-b">Courses</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">1</td>
+                                        <td class="py-2 px-4 border-b">Alice</td>
+                                        <td class="py-2 px-4 border-b">History, Maths</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">2</td>
+                                        <td class="py-2 px-4 border-b">Bob</td>
+                                        <td class="py-2 px-4 border-b">Physics</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="font-bold my-2">Table in 1NF:</p>
+                         <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="py-2 px-4 border-b">StudentID</th>
+                                        <th class="py-2 px-4 border-b">Name</th>
+                                        <th class="py-2 px-4 border-b">Course</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">1</td>
+                                        <td class="py-2 px-4 border-b">Alice</td>
+                                        <td class="py-2 px-4 border-b">History</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">1</td>
+                                        <td class="py-2 px-4 border-b">Alice</td>
+                                        <td class="py-2 px-4 border-b">Maths</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">2</td>
+                                        <td class="py-2 px-4 border-b">Bob</td>
+                                        <td class="py-2 px-4 border-b">Physics</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2NF -->
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-2 text-gray-700">Second Normal Form (2NF)</h3>
+                <p>A relation is in 2NF if it is in 1NF and all non-key attributes are fully functionally dependent on the entire primary key. This is primarily relevant for tables with composite primary keys.</p>
+                 <div class="mt-4">
+                    <button onclick="toggleVisibility('example2nf')" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        Toggle 2NF Example
+                    </button>
+                    <div id="example2nf" class="hidden mt-4 p-4 bg-gray-50 rounded-lg border">
+                         <p class="font-bold mb-2">Table not in 2NF (Composite Primary Key: StudentID, Course):</p>
+                         <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border">
+                                 <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="py-2 px-4 border-b"><u>StudentID</u></th>
+                                        <th class="py-2 px-4 border-b"><u>Course</u></th>
+                                        <th class="py-2 px-4 border-b">Instructor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">1</td>
+                                        <td class="py-2 px-4 border-b">History</td>
+                                        <td class="py-2 px-4 border-b">Prof. Jones</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">1</td>
+                                        <td class="py-2 px-4 border-b">Maths</td>
+                                        <td class="py-2 px-4 border-b">Prof. Davis</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">2</td>
+                                        <td class="py-2 px-4 border-b">History</td>
+                                        <td class="py-2 px-4 border-b">Prof. Jones</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="mt-2">Here, `Instructor` only depends on `Course`, which is only part of the primary key. This is a partial dependency.</p>
+                        <p class="font-bold my-2">Tables in 2NF:</p>
+                         <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="font-semibold">Enrollment Table</p>
+                                 <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border">
+                                        <thead class="bg-gray-200">
+                                            <tr>
+                                                <th class="py-2 px-4 border-b"><u>StudentID</u></th>
+                                                <th class="py-2 px-4 border-b"><u>Course</u></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">1</td>
+                                                <td class="py-2 px-4 border-b">History</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">1</td>
+                                                <td class="py-2 px-4 border-b">Maths</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">2</td>
+                                                <td class="py-2 px-4 border-b">History</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Courses Table</p>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border">
+                                        <thead class="bg-gray-200">
+                                            <tr>
+                                                <th class="py-2 px-4 border-b"><u>Course</u></th>
+                                                <th class="py-2 px-4 border-b">Instructor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">History</td>
+                                                <td class="py-2 px-4 border-b">Prof. Jones</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">Maths</td>
+                                                <td class="py-2 px-4 border-b">Prof. Davis</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3NF -->
+            <div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-700">Third Normal Form (3NF)</h3>
+                <p>A relation is in 3NF if it is in 2NF and has no transitive dependencies. This means that no non-key attribute is dependent on another non-key attribute.</p>
+                <div class="mt-4">
+                    <button onclick="toggleVisibility('example3nf')" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        Toggle 3NF Example
+                    </button>
+                    <div id="example3nf" class="hidden mt-4 p-4 bg-gray-50 rounded-lg border">
+                        <p class="font-bold mb-2">Table not in 3NF (from our 2NF example):</p>
+                         <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="py-2 px-4 border-b"><u>Course</u></th>
+                                        <th class="py-2 px-4 border-b">Instructor</th>
+                                        <th class="py-2 px-4 border-b">Instructor_Department</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">History</td>
+                                        <td class="py-2 px-4 border-b">Prof. Jones</td>
+                                        <td class="py-2 px-4 border-b">Humanities</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">Maths</td>
+                                        <td class="py-2 px-4 border-b">Prof. Davis</td>
+                                        <td class="py-2 px-4 border-b">Science</td>
+                                    </tr>
+                                     <tr>
+                                        <td class="py-2 px-4 border-b">Physics</td>
+                                        <td class="py-2 px-4 border-b">Prof. Maxwell</td>
+                                        <td class="py-2 px-4 border-b">Science</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="mt-2">Here, `Instructor_Department` depends on `Instructor`, which is a non-key attribute. This is a transitive dependency.</p>
+                         <p class="font-bold my-2">Tables in 3NF:</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="font-semibold">Courses Table</p>
+                                 <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border">
+                                        <thead class="bg-gray-200">
+                                            <tr>
+                                                <th class="py-2 px-4 border-b"><u>Course</u></th>
+                                                <th class="py-2 px-4 border-b">Instructor_ID</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">History</td>
+                                                <td class="py-2 px-4 border-b">101</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">Maths</td>
+                                                <td class="py-2 px-4 border-b">102</td>
+                                            </tr>
+                                             <tr>
+                                                <td class="py-2 px-4 border-b">Physics</td>
+                                                <td class="py-2 px-4 border-b">103</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Instructors Table</p>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border">
+                                        <thead class="bg-gray-200">
+                                            <tr>
+                                                <th class="py-2 px-4 border-b"><u>Instructor_ID</u></th>
+                                                <th class="py-2 px-4 border-b">Instructor_Name</th>
+                                                <th class="py-2 px-4 border-b">Department</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">101</td>
+                                                <td class="py-2 px-4 border-b">Prof. Jones</td>
+                                                <td class="py-2 px-4 border-b">Humanities</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">102</td>
+                                                <td class="py-2 px-4 border-b">Prof. Davis</td>
+                                                <td class="py-2 px-4 border-b">Science</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 border-b">103</td>
+                                                <td class="py-2 px-4 border-b">Prof. Maxwell</td>
+                                                <td class="py-2 px-4 border-b">Science</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Properties of a Relation in 3NF -->
+        <section class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Properties of a Relation in Third Normal Form</h2>
+            <p class="mb-4">A relation in 3NF has specific characteristics that contribute to a well-structured database.</p>
+            <div class="space-y-4">
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
+                    <p class="font-bold">Key Properties:</p>
+                    <ul class="list-disc list-inside mt-2">
+                        <li>It is in Second Normal Form (2NF).</li>
+                        <li>It has no transitive dependencies. This means that every non-prime attribute is non-transitively dependent on every candidate key.</li>
+                        <li>For any functional dependency X → Y, either X is a superkey, or Y is a prime attribute (part of a candidate key).</li>
+                        <li>Most tables in 3NF are free of update, insertion, and deletion anomalies.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center text-sm text-gray-500 mt-12">
+        <p>© 2025 Interactive Learning Module. All Rights Reserved.</p>
+    </footer>
+
+</div>
+
+<script>
+    function toggleVisibility(id) {
+        const element = document.getElementById(id);
+        element.classList.toggle('hidden');
+    }
+</script>
+</body>
+</html>
