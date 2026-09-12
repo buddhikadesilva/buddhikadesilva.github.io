@@ -1,19 +1,19 @@
 {
-  "version": "2.12.14",
+  "version": "2.12.15",
   "notes": "Signed Windows installers and updater artifacts.",
-  "pub_date": "2026-09-10T21:10:47.361Z",
+  "pub_date": "2026-09-12T10:42:06.298Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUNKaDVuMTdaQVdVQTJwQ2NtdExvZWc2R2lqNS9uTS85U2RlR3pGaXJWTjY5TTZEdXlaRC9nR2FoU0ExcjRjMkgycDdvRzdNTGxzNzB4dmdTajRaVWd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg5MDc0NjQyCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTRfeDY0X2VuLVVTLm1zaQpiU0prcnlhZ1Z1MnRaYXFkZ01USmdncTZYQmpUYVRWbUdIOE90WmZBbUFLMUQzQUI0SGdOTHJraUJ2L2l4NjA4NEJtVU5BNFI1V2JXQzAycTlwQ0lDZz09Cg==",
-      "url": "https://buddhikadesilva.github.io/downloads/Markdown-Reader-Setup-x64.exe"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUs5cEtoZlJETGhJQzVadGhtZVRzOHVlMThCc2k5WE5Mb0pseTBpM2JGamE3dUVTQzNTT2dUL2tITnpFczh4T3ZkcEJIMlR4NFROcHFpbStFbVBFM3dRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg5MjA5NzIwCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTVfeDY0X2VuLVVTLm1zaQpEb1Uwbm5Cb3JJM2hUcEdoc0ZzMlBib1ZoUUgyb0VXcm8rWWM2c1FmOHhpQ3prdjlTemtMVU5qVzJGU0xWSG92Yy9YTW54RndXNHVIWTNTUjB5OWFDUT09Cg==",
+      "url": "https://buddhikadesilva.github.io/mdreader/downloads/Markdown-Reader-Setup-x64.exe"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUNKaDVuMTdaQVdVQTJwQ2NtdExvZWc2R2lqNS9uTS85U2RlR3pGaXJWTjY5TTZEdXlaRC9nR2FoU0ExcjRjMkgycDdvRzdNTGxzNzB4dmdTajRaVWd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg5MDc0NjQyCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTRfeDY0X2VuLVVTLm1zaQpiU0prcnlhZ1Z1MnRaYXFkZ01USmdncTZYQmpUYVRWbUdIOE90WmZBbUFLMUQzQUI0SGdOTHJraUJ2L2l4NjA4NEJtVU5BNFI1V2JXQzAycTlwQ0lDZz09Cg==",
-      "url": "https://api.github.com/repos/buddhikadesilva/markdown-reader/releases/assets/555828880"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUs5cEtoZlJETGhJQzVadGhtZVRzOHVlMThCc2k5WE5Mb0pseTBpM2JGamE3dUVTQzNTT2dUL2tITnpFczh4T3ZkcEJIMlR4NFROcHFpbStFbVBFM3dRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg5MjA5NzIwCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTVfeDY0X2VuLVVTLm1zaQpEb1Uwbm5Cb3JJM2hUcEdoc0ZzMlBib1ZoUUgyb0VXcm8rWWM2c1FmOHhpQ3prdjlTemtMVU5qVzJGU0xWSG92Yy9YTW54RndXNHVIWTNTUjB5OWFDUT09Cg==",
+      "url": "https://api.github.com/repos/buddhikadesilva/markdown-reader/releases/assets/559089649"
     },
     "windows-x86_64-nsis": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OU5pRzB2alFJcGsxUzljUGdHRkdjRllkdlU3SC9Oa2xwSElJU0lCVHdqNW00YUtEOFI2eVhQWjFaSG9abkhVSm5FRVVmUHNKaWVReUNvd09VN1hZRXdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg5MDc0NjQyCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTRfeDY0LXNldHVwLmV4ZQpoWDIyT0k5OEFuOHQvNXJiMEFZcjdPNmlXcmFpMHlUYkkxTS96aXZ3L1hJNDlpb0Ird2gvZ1U3cVEvclZqOWc2UmxadUtYWFl2N1lsZk5EdHFPMk1BUT09Cg==",
-      "url": "https://api.github.com/repos/buddhikadesilva/markdown-reader/releases/assets/555829033"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUIwQUJUd2o0WHlkZHZQMTUzczB3ZUZjcERZUHF3VTdGTVB4L0NEYlBYN0JacEptZHowaklVUUxpRFFRa0E3M25ubmlHZm5KQm9wcVlvcnJ0Mjd6cEEwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg5MjA5NzIwCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTVfeDY0LXNldHVwLmV4ZQpXSS91alh6SnpRdGhEUFozbTBPMUo5ZXdkajZRZXVDK0tVWHh0THRMVGNxT0syL1l5NXIzd0hJSEdEZ0cyS0w3QjNCOWhsMEdlVExRQ1NEbTF6U0tDdz09Cg==",
+      "url": "https://api.github.com/repos/buddhikadesilva/markdown-reader/releases/assets/559089683"
     }
   }
 }
