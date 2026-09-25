@@ -4,8 +4,8 @@
   "pub_date": "2026-09-21T19:20:05.801Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUtTOHlUbEg5aXROTEUyVWFsTjM4SmNBN3JQSUFsZGd3THVyUEpDL1c0cUFnY3ZLTk5aeVpMVHBDOU5acTZFT2FEdm15Z01zZmJRbTlGekVoRS9rZWdvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkwMDE4NDAxCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTdfeDY0X2VuLVVTLm1zaQpZSGxXa0w3clVjZkUxczRnTlEwWEF5WDBHNy9PRWNJY2xGbkU0bzgwUGNqbXFLZW9uM0ZLUVd5ODVUczJMT1lMZzZxWXNpRElWWjFaYlBOSGYwcEhBZz09Cg==",
-      "url": "https://buddhikadesilva.github.io/mdreader/downloads/Markdown-Reader-Setup-x64.exe"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUwrUmFrYVp5NWN4NmV6cHZkQ1RpbysrMmM4NldnZVhLajdSVGE2d3pyMFh2VzdyQnMvbGF5ck95Y3pVcno4bFV5WUx4L0k5WUhkR2hEMHJyWVVpYWdjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkwMDE4NDAxCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTdfeDY0LXNldHVwLmV4ZQpFeDg5bEp0TGIzK2swNFppVTQyN2pRMWlWMHMrWWt4Slg5ak1tb3pVQUlZQ3pWRzk5NW1xZ3Bqam84WDRRckgwTjk3VjBNWkVzRjUreFBpSjlnUFVEdz09Cg==",
+      "url": "https://buddhikadesilva.github.io/downloads/Markdown-Reader-Setup-x64.exe"
     },
     "windows-x86_64-msi": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUtTOHlUbEg5aXROTEUyVWFsTjM4SmNBN3JQSUFsZGd3THVyUEpDL1c0cUFnY3ZLTk5aeVpMVHBDOU5acTZFT2FEdm15Z01zZmJRbTlGekVoRS9rZWdvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkwMDE4NDAxCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTdfeDY0X2VuLVVTLm1zaQpZSGxXa0w3clVjZkUxczRnTlEwWEF5WDBHNy9PRWNJY2xGbkU0bzgwUGNqbXFLZW9uM0ZLUVd5ODVUczJMT1lMZzZxWXNpRElWWjFaYlBOSGYwcEhBZz09Cg==",
@@ -13,7 +13,7 @@
     },
     "windows-x86_64-nsis": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbCtqem5FR3U3OUwrUmFrYVp5NWN4NmV6cHZkQ1RpbysrMmM4NldnZVhLajdSVGE2d3pyMFh2VzdyQnMvbGF5ck95Y3pVcno4bFV5WUx4L0k5WUhkR2hEMHJyWVVpYWdjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkwMDE4NDAxCWZpbGU6TWFya2Rvd24gUmVhZGVyXzIuMTIuMTdfeDY0LXNldHVwLmV4ZQpFeDg5bEp0TGIzK2swNFppVTQyN2pRMWlWMHMrWWt4Slg5ak1tb3pVQUlZQ3pWRzk5NW1xZ3Bqam84WDRRckgwTjk3VjBNWkVzRjUreFBpSjlnUFVEdz09Cg==",
-      "url": "https://api.github.com/repos/buddhikadesilva/markdown-reader/releases/assets/579699300"
+      "url": "https://buddhikadesilva.github.io/downloads/Markdown-Reader-Setup-x64.exe"
     }
   }
 }
