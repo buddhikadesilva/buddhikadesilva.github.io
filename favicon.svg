@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Base Squircle -->
+  <rect width="128" height="128" rx="30" fill="url(#bgGrad)" />
+  <rect x="3" y="3" width="122" height="122" rx="27" stroke="#334155" stroke-width="3" />
+  
+  <!-- Modern Tech Accent Indicator -->
+  <circle cx="98" cy="30" r="8" fill="url(#accentGrad)" />
+  <circle cx="98" cy="30" r="14" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.35" />
+
+  <!-- Clean, Iconic Geometric 'B' Monogram -->
+  <path d="M38 28 H70 C83 28 90 35 90 45 C90 52 85 58 78 61 C87 64 93 72 93 83 C93 94 83 100 70 100 H38 V28 Z M53 41 V56 H68 C74 56 77 53 77 48.5 C77 44 74 41 68 41 H53 Z M53 70 V87 H70 C76 87 80 83.5 80 78.5 C80 73.5 76 70 70 70 H53 Z" fill="#ffffff" />
+</svg>

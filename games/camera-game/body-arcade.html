@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Body Arcade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=DM+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: one-screen arcade cabinet — control strip on top, mirrored camera stage fills the rest, HUD floats over it */
+:root{
+  --bg:#14121f; --panel:#201d31; --line:#34304d; --ink:#f3eee6; --muted:#a59fbd;
+  --accent:#ff8a3d; --bone:#5ad1c4; --bad:#ff5470;
+  --display:"Bungee", "Impact", system-ui, sans-serif;
+  --body:"DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.4 var(--body);display:flex;flex-direction:column}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px max(16px,env(safe-area-inset-left)) 12px max(16px,env(safe-area-inset-right));border-bottom:1px solid var(--line);background:var(--panel)}
+h1{font:22px/1 var(--display);margin:0;letter-spacing:.02em;color:var(--accent)}
+.grow{flex:1}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--muted);font:600 14px var(--body);padding:8px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#1b1206}
+select,.btn{font:600 14px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px;max-width:100%}
+.btn{cursor:pointer}
+.btn.go{background:var(--accent);border-color:var(--accent);color:#1b1206}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,select:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
+main{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;background:#000}
+canvas{max-width:100%;max-height:100%;display:block}
+video{display:none}
+.hud{position:absolute;inset:12px 16px auto;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;gap:12px}
+.stat{background:rgba(20,18,31,.78);border:1px solid var(--line);border-radius:12px;padding:8px 14px;min-width:96px}
+.stat small{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:11px;color:var(--muted)}
+.stat b{font:30px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.stat.time b{color:var(--accent)}
+.big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:clamp(64px,18vw,180px)/1 var(--display);color:var(--accent);text-shadow:0 6px 0 #000;pointer-events:none}
+.msg{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:rgba(20,18,31,.85);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-weight:600;max-width:calc(100% - 32px);text-align:center}
+.meter{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:16px;height:40%;border:1px solid var(--line);border-radius:999px;background:rgba(20,18,31,.7);overflow:hidden}
+.meter i{position:absolute;left:0;right:0;bottom:0;background:var(--bone);transition:height .08s}
+.meter::after{content:"";position:absolute;left:0;right:0;bottom:85%;border-top:2px dashed var(--accent)}
+.start-card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;background:var(--bg)}
+.start-card p{max-width:46ch;color:var(--muted);margin:0}
+@media (prefers-reduced-motion:reduce){.meter i{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Body Arcade</h1>
+  <div class="seg" role="group" aria-label="Game mode">
+    <button id="m-squat" aria-pressed="true">Squats</button>
+    <button id="m-punch" aria-pressed="false">Punch targets</button>
+  </div>
+  <span class="grow"></span>
+  <select id="cam" aria-label="Camera"><option>Camera</option></select>
+  <button class="btn go" id="round" disabled>Start 60s round</button>
+</header>
+<main>
+  <video id="v" playsinline muted></video>
+  <canvas id="c" width="1280" height="720"></canvas>
+  <div class="hud" id="hud" hidden>
+    <div class="stat"><small id="scoreLabel">Reps</small><b id="score">0</b></div>
+    <div class="stat time"><small>Time</small><b id="time">60</b></div>
+    <div class="stat"><small>Best</small><b id="best">0</b></div>
+  </div>
+  <div class="meter" id="meter" hidden title="Squat depth"><i id="depth"></i></div>
+  <div class="big" id="big" hidden></div>
+  <div class="msg" id="msg" hidden></div>
+  <div class="start-card" id="startCard">
+    <p>Place your camera 2–3 m away so your whole body is in frame. Pick your Osmo Pocket from the camera list after it starts.</p>
+    <button class="btn go" id="camBtn">Start camera</button>
+    <p id="status">Loading pose model…</p>
+  </div>
+</main>
+
+<script type="module">
+import { PoseLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+const WASM = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm";
+const MODEL = "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+
+const $ = id => document.getElementById(id);
+const video = $("v"), canvas = $("c"), ctx = canvas.getContext("2d");
+const ROUND_MS = 60000;
+const BONES = [[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28],[27,31],[28,32]];
+
+let landmarker = null, stream = null, lastVideoTime = -1, lastLm = null, autoPicked = false;
+const S = { mode:"squat", running:false, countEnd:0, endAt:0, score:0, phase:"up", target:null, combo:0, flash:0, depth:0 };
+
+/* ---------- storage & sound ---------- */
+const bestKey = () => "body-arcade-best-" + S.mode;
+const getBest = () => { try { return +localStorage.getItem(bestKey()) || 0; } catch { return 0; } };
+const setBest = v => { try { localStorage.setItem(bestKey(), v); } catch {} };
+let actx;
+function beep(f, d = 0.09, type = "square") {
+  try {
+    actx ||= new AudioContext();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.value = f;
+    g.gain.setValueAtTime(0.08, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + d);
+    o.connect(g).connect(actx.destination); o.start(); o.stop(actx.currentTime + d);
+  } catch {}
+}
+
+/* ---------- model ---------- */
+async function loadModel() {
+  const files = await FilesetResolver.forVisionTasks(WASM);
+  const opts = d => ({ baseOptions:{ modelAssetPath:MODEL, delegate:d }, runningMode:"VIDEO", numPoses:1 });
+  try { landmarker = await PoseLandmarker.createFromOptions(files, opts("GPU")); }
+  catch { landmarker = await PoseLandmarker.createFromOptions(files, opts("CPU")); }
+  $("status").textContent = "Pose model ready.";
+}
+loadModel().catch(e => { $("status").textContent = "Couldn't load the pose model. Check your internet connection and reload. (" + e.message + ")"; });
+
+/* ---------- camera ---------- */
+async function startCamera(deviceId) {
+  if (stream) stream.getTracks().forEach(t => t.stop());
+  const size = { width:{ ideal:1280 }, height:{ ideal:720 } };
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: deviceId ? { deviceId:{ exact:deviceId }, ...size } : size, audio:false });
+  } catch (e) {
+    $("status").textContent = "Camera blocked or not found. Allow camera access in your browser and try again. (" + e.name + ")";
+    return;
+  }
+  video.srcObject = stream; await video.play();
+  $("startCard").hidden = true; $("hud").hidden = false; $("round").disabled = false;
+  await listCameras(stream.getVideoTracks()[0].getSettings().deviceId);
+  applyMode();
+}
+async function listCameras(currentId) {
+  const cams = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === "videoinput");
+  const sel = $("cam"); sel.innerHTML = "";
+  cams.forEach((c, i) => {
+    const o = document.createElement("option");
+    o.value = c.deviceId; o.textContent = c.label || "Camera " + (i + 1);
+    if (c.deviceId === currentId) o.selected = true;
+    sel.append(o);
+  });
+  // Switch to the Osmo automatically the first time if it's plugged in
+  const osmo = cams.find(c => /osmo|dji/i.test(c.label));
+  if (!autoPicked && osmo && osmo.deviceId !== currentId) { autoPicked = true; startCamera(osmo.deviceId); }
+  autoPicked = true;
+}
+$("camBtn").onclick = () => { beep(1, 0.01); startCamera(); };
+$("cam").onchange = e => startCamera(e.target.value);
+
+/* ---------- modes & rounds ---------- */
+function applyMode() {
+  $("m-squat").setAttribute("aria-pressed", S.mode === "squat");
+  $("m-punch").setAttribute("aria-pressed", S.mode === "punch");
+  $("scoreLabel").textContent = S.mode === "squat" ? "Reps" : "Score";
+  $("meter").hidden = S.mode !== "squat" || !stream;
+  S.running = false; S.countEnd = 0; S.score = 0; S.combo = 0; S.target = null; S.phase = "up";
+  $("score").textContent = 0; $("time").textContent = 60; $("best").textContent = getBest();
+  $("big").hidden = true;
+  say(S.mode === "squat" ? "Practise a squat — reps count once you start a round." : "Start a round, then punch the targets.");
+}
+$("m-squat").onclick = () => { S.mode = "squat"; applyMode(); };
+$("m-punch").onclick = () => { S.mode = "punch"; applyMode(); };
+$("round").onclick = () => {
+  applyMode(); S.countEnd = performance.now() + 3000; say("Get ready…");
+};
+function say(t) { const m = $("msg"); m.textContent = t; m.hidden = !t; }
+
+function tickRound(now) {
+  const big = $("big");
+  if (S.countEnd) {
+    const left = Math.ceil((S.countEnd - now) / 1000);
+    if (left > 0) {
+      if (big.textContent !== String(left)) { big.textContent = left; beep(440, 0.12); }
+      big.hidden = false; return;
+    }
+    S.countEnd = 0; S.running = true; S.endAt = now + ROUND_MS;
+    big.textContent = "GO"; beep(880, 0.25); setTimeout(() => big.hidden = true, 600);
+    say("");
+  }
+  if (S.running) {
+    const left = Math.max(0, Math.ceil((S.endAt - now) / 1000));
+    $("time").textContent = left;
+    if (left === 0) {
+      S.running = false; S.target = null;
+      const best = getBest(), newBest = S.score > best;
+      if (newBest) { setBest(S.score); $("best").textContent = S.score; }
+      beep(523, 0.15); setTimeout(() => beep(784, 0.3), 160);
+      say(`Round over: ${S.score} ${S.mode === "squat" ? "squats" : "points"}${newBest ? " — new best!" : ""}`);
+    }
+  }
+}
+
+/* ---------- helpers ---------- */
+const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+function angle(a, b, c) {
+  const v1 = Math.atan2(a.y - b.y, a.x - b.x), v2 = Math.atan2(c.y - b.y, c.x - b.x);
+  let d = Math.abs(v1 - v2) * 180 / Math.PI; return d > 180 ? 360 - d : d;
+}
+
+/* ---------- squats ---------- */
+function squat(P) {
+  const leg = (h, k, a) => Math.min(P[h].v, P[k].v, P[a].v) < 0.5 ? null : angle(P[h], P[k], P[a]);
+  const vals = [leg(23,25,27), leg(24,26,28)].filter(v => v != null);
+  if (!vals.length) { if (!S.countEnd) say("Step back so your knees and ankles are in view."); return; }
+  const a = vals.reduce((s, v) => s + v, 0) / vals.length;
+  $("depth").style.height = Math.max(0, Math.min(100, (170 - a) / 80 * 100)) + "%";
+  if (S.phase === "up" && a < 100) { S.phase = "down"; beep(330, 0.06); }
+  else if (S.phase === "down" && a > 155) {
+    S.phase = "up";
+    if (S.running) { S.score++; $("score").textContent = S.score; S.flash = performance.now(); beep(660); }
+  }
+}
+
+/* ---------- punch targets ---------- */
+function spawn(P, sw, now) {
+  const cx = (P[11].x + P[12].x) / 2, sy = (P[11].y + P[12].y) / 2;
+  const side = Math.random() < 0.5 ? -1 : 1;
+  const x = Math.min(canvas.width * 0.92, Math.max(canvas.width * 0.08, cx + side * sw * (0.7 + Math.random() * 0.9)));
+  const y = Math.min(canvas.height * 0.9, Math.max(canvas.height * 0.08, sy + sw * (-0.6 + Math.random() * 1.3)));
+  const life = Math.max(1100, 2600 - S.score * 35);
+  S.target = { x, y, r: sw * 0.28, born: now, expires: now + life };
+}
+function punch(P, now) {
+  if (!S.running) return;
+  if (Math.min(P[11].v, P[12].v) < 0.5) { say("Face the camera so both shoulders are visible."); return; }
+  const sw = dist(P[11], P[12]);
+  if (!S.target) spawn(P, sw, now);
+  const t = S.target;
+  const hit = [15,16,19,20].some(i => P[i].v > 0.4 && dist(P[i], t) < t.r + sw * 0.08);
+  if (hit) {
+    S.combo++; S.score += 1 + Math.floor(S.combo / 5);
+    $("score").textContent = S.score; S.flash = now; S.target = null; beep(880 + S.combo * 20, 0.07);
+    say(S.combo >= 5 ? `Combo ×${S.combo}` : "");
+  } else if (now > t.expires) {
+    S.combo = 0; S.target = null; beep(140, 0.15, "sawtooth"); say("Missed — keep moving!");
+  }
+}
+function drawTarget(now) {
+  const t = S.target; if (!t) return;
+  const left = Math.max(0, (t.expires - now) / (t.expires - t.born));
+  ctx.lineWidth = Math.max(4, t.r * 0.14);
+  ctx.fillStyle = "rgba(255,138,61,.28)"; ctx.strokeStyle = "#ff8a3d";
+  ctx.beginPath(); ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = "#ff8a3d"; ctx.beginPath(); ctx.arc(t.x, t.y, t.r * 0.32, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = "#f3eee6"; ctx.beginPath();
+  ctx.arc(t.x, t.y, t.r * 1.22, -Math.PI / 2, -Math.PI / 2 + left * Math.PI * 2); ctx.stroke();
+}
+
+/* ---------- drawing ---------- */
+function drawSkeleton(P) {
+  ctx.lineWidth = Math.max(3, canvas.width / 300); ctx.strokeStyle = "#5ad1c4"; ctx.lineCap = "round";
+  for (const [a, b] of BONES) {
+    if (P[a].v < 0.5 || P[b].v < 0.5) continue;
+    ctx.beginPath(); ctx.moveTo(P[a].x, P[a].y); ctx.lineTo(P[b].x, P[b].y); ctx.stroke();
+  }
+  ctx.fillStyle = "#f3eee6";
+  for (const i of [11,12,13,14,15,16,23,24,25,26,27,28]) {
+    if (P[i].v < 0.5) continue;
+    ctx.beginPath(); ctx.arc(P[i].x, P[i].y, ctx.lineWidth * 1.4, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+function frame() {
+  requestAnimationFrame(frame);
+  if (!video.videoWidth) return;
+  const W = video.videoWidth, H = video.videoHeight;
+  if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+  ctx.save(); ctx.translate(W, 0); ctx.scale(-1, 1); ctx.drawImage(video, 0, 0, W, H); ctx.restore();
+
+  const now = performance.now();
+  if (landmarker && video.currentTime !== lastVideoTime) {
+    lastVideoTime = video.currentTime;
+    try { lastLm = landmarker.detectForVideo(video, now).landmarks?.[0] || null; } catch { lastLm = null; }
+  }
+  tickRound(now);
+
+  if (now - S.flash < 180) { ctx.fillStyle = "rgba(90,209,196,.18)"; ctx.fillRect(0, 0, W, H); }
+
+  if (lastLm) {
+    const P = lastLm.map(p => ({ x:(1 - p.x) * W, y:p.y * H, v:p.visibility ?? 1 }));
+    drawSkeleton(P);
+    if (S.mode === "squat") squat(P); else punch(P, now);
+  } else if (landmarker && !S.countEnd && (S.running || S.mode === "squat")) {
+    say("No body detected — step into view.");
+  } else if (!landmarker) {
+    say("Loading pose model…");
+  }
+  if (S.mode === "punch") drawTarget(now);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

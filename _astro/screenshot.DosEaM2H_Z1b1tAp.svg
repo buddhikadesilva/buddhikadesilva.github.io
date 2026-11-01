@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <!-- Window Frame -->
+  <rect width="1280" height="720" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Window Title Bar -->
+  <rect width="1280" height="38" rx="8" fill="#18181b" />
+  <rect y="30" width="1280" height="8" fill="#18181b" />
+  
+  <!-- App Icon & Title -->
+  <rect x="12" y="8" width="22" height="22" rx="4" fill="#27272a" stroke="#71717a" stroke-width="1"/>
+  <text x="23" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#e4e4e7">M</text>
+  <text x="44" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#d4d4d8">Markdown Reader</text>
+
+  <!-- Windows Controls -->
+  <g fill="none" stroke="#a1a1aa" stroke-width="1.2">
+    <!-- Minimize -->
+    <line x1="1175" y1="20" x2="1187" y2="20" />
+    <!-- Maximize -->
+    <rect x="1215" y="14" width="11" height="11" rx="1.5" />
+    <!-- Close -->
+    <line x1="1252" y1="14" x2="1263" y2="25" />
+    <line x1="1263" y1="14" x2="1252" y2="25" />
+  </g>
+
+  <!-- Sidebar (Outline Navigation) -->
+  <rect x="0" y="38" width="260" height="682" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Sidebar Header Icons -->
+  <g fill="none" stroke="#64748b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Folder icon -->
+    <path d="M22 62 h6 l3 3 h12 a2 2 0 0 1 2 2 v11 a2 2 0 0 1 -2 2 H22 a2 2 0 0 1 -2 -2 V64 a2 2 0 0 1 2 -2 z" fill="none"/>
+  </g>
+
+  <!-- Active TOC Button -->
+  <rect x="52" y="52" width="34" height="34" rx="6" fill="#3b82f6" />
+  <g fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round">
+    <line x1="60" y1="62" x2="78" y2="62" />
+    <line x1="60" y1="69" x2="78" y2="69" />
+    <line x1="60" y1="76" x2="78" y2="76" />
+  </g>
+
+  <!-- Search Icon -->
+  <g fill="none" stroke="#64748b" stroke-width="1.8" stroke-linecap="round">
+    <circle cx="112" cy="69" r="6" />
+    <line x1="116" y1="73" x2="122" y2="79" />
+  </g>
+
+  <!-- Sidebar Content Links -->
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">
+    <!-- Item 1: Active -->
+    <rect x="10" y="105" width="235" height="42" rx="4" fill="#eff6ff" />
+    <text x="18" y="122" fill="#2563eb" font-weight="600">🚀 Set as Default Launcher</text>
+    <text x="18" y="138" fill="#2563eb" font-weight="600">— All the Changes Explained!</text>
+
+    <!-- Item 2 -->
+    <text x="18" y="174" fill="#334155" font-weight="600">🧠 The Big Idea</text>
+
+    <!-- Item 3 -->
+    <text x="18" y="206" fill="#334155" font-weight="600">🏗️ Architecture — How it all</text>
+    <text x="18" y="222" fill="#334155" font-weight="600">connects</text>
+
+    <!-- Item 4 -->
+    <text x="18" y="254" fill="#334155" font-weight="600">📦 What files changed (9 commits!)</text>
+    
+    <!-- Sub-items -->
+    <text x="28" y="284" fill="#64748b">Commit-by-commit breakdown 🧩</text>
+    
+    <text x="32" y="312" fill="#475569">1️⃣ Enable HOME intent-filter</text>
+    <text x="32" y="338" fill="#475569">2️⃣ Service + Repository layers</text>
+    <text x="32" y="364" fill="#475569">3️⃣ New Screen + ViewModel</text>
+    <text x="32" y="390" fill="#475569">4️⃣ Settings page integration</text>
+    <text x="32" y="416" fill="#475569">5️⃣ 5th onboarding slide</text>
+    <text x="32" y="442" fill="#475569">6️⃣ Provider registration</text>
+    <text x="32" y="468" fill="#475569">7️⃣ Tests! 🧪</text>
+    <text x="32" y="494" fill="#475569">8️⃣ Magic numbers -&gt; constant</text>
+    <text x="32" y="520" fill="#475569">9️⃣ AGENTS.md</text>
+
+    <!-- Item 5 -->
+    <text x="18" y="556" fill="#334155" font-weight="600">🌟 The User Experience</text>
+  </g>
+
+  <!-- Sidebar Scrollbar -->
+  <rect x="250" y="105" width="6" height="380" rx="3" fill="#cbd5e1" />
+
+  <!-- Main Reading View (White Canvas) -->
+  <rect x="260" y="38" width="1020" height="682" fill="#ffffff" />
+
+  <!-- Menu toggle buttons on reading pane -->
+  <g fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round">
+    <line x1="285" y1="62" x2="300" y2="62" />
+    <line x1="285" y1="67" x2="300" y2="67" />
+    <line x1="285" y1="72" x2="300" y2="72" />
+
+    <line x1="1235" y1="62" x2="1250" y2="62" />
+    <line x1="1235" y1="67" x2="1250" y2="67" />
+    <line x1="1235" y1="72" x2="1250" y2="72" />
+  </g>
+
+  <!-- Right Reading Scrollbar -->
+  <rect x="1270" y="55" width="7" height="90" rx="3.5" fill="#94a3b8" />
+
+  <!-- Document Content -->
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif">
+    <!-- Title -->
+    <text x="330" y="132" font-size="28" font-weight="700" fill="#1e293b">🚀 Set as Default Launcher — All the Changes</text>
+    <text x="330" y="172" font-size="28" font-weight="700" fill="#1e293b">Explained!</text>
+
+    <!-- Subtitle paragraph -->
+    <text x="330" y="215" font-size="14.5" fill="#334155">
+      Hey there! Here's everything we built in the last hour to let users set our app as their <tspan font-weight="700">default home</tspan>
+    </text>
+    <text x="330" y="238" font-size="14.5" fill="#334155">
+      <tspan font-weight="700">screen</tspan> on Android. 🏠
+    </text>
+
+    <!-- Divider 1 -->
+    <line x1="330" y1="275" x2="1140" y2="275" stroke="#e2e8f0" stroke-width="1.2" />
+
+    <!-- Section: The Big Idea -->
+    <text x="330" y="325" font-size="22" font-weight="700" fill="#1e293b">🧠 The Big Idea</text>
+
+    <!-- Divider 2 -->
+    <line x1="330" y1="345" x2="1140" y2="345" stroke="#e2e8f0" stroke-width="1.2" />
+
+    <!-- Paragraph under Big Idea -->
+    <text x="330" y="385" font-size="14.5" fill="#334155">
+      Android lets you pick which app acts as your <tspan font-weight="700">“Home”</tspan> (the thing that shows up when you press the
+    </text>
+    <text x="330" y="408" font-size="14.5" fill="#334155">
+      home button). Our app is a launcher, so we want users to be able to choose it! We built:
+    </text>
+
+    <!-- Checklist / Ordered List -->
+    <!-- Item 1 -->
+    <text x="350" y="450" font-size="14.5" fill="#475569">1.</text>
+    <rect x="372" y="438" width="14" height="14" rx="3" fill="#10b981" />
+    <path d="M375 445 l3 3 l6 -6" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="395" y="450" font-size="14.5" fill="#334155">A <tspan font-weight="700">button</tspan> that opens Android's Home Settings</text>
+
+    <!-- Item 2 -->
+    <text x="350" y="488" font-size="14.5" fill="#475569">2.</text>
+    <rect x="372" y="476" width="14" height="14" rx="3" fill="#10b981" />
+    <path d="M375 483 l3 3 l6 -6" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="395" y="488" font-size="14.5" fill="#334155">A <tspan font-weight="700">step-by-step guide</tspan> teaching users how to set us as default</text>
+
+    <!-- Item 3 -->
+    <text x="350" y="526" font-size="14.5" fill="#475569">3.</text>
+    <rect x="372" y="514" width="14" height="14" rx="3" fill="#10b981" />
+    <path d="M375 521 l3 3 l6 -6" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="395" y="526" font-size="14.5" fill="#334155">A <tspan font-weight="700">5th slide</tspan> in the onboarding (intro) flow</text>
+
+    <!-- Item 4 -->
+    <text x="350" y="564" font-size="14.5" fill="#475569">4.</text>
+    <rect x="372" y="552" width="14" height="14" rx="3" fill="#10b981" />
+    <path d="M375 559 l3 3 l6 -6" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="395" y="564" font-size="14.5" fill="#334155">An <tspan font-weight="700">entry in the Settings page</tspan> so users can find it later</text>
+  </g>
+</svg>
